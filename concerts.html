@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUPP | Концерты</title>
+    <style>
+        :root {
+            --primary: #ff4d00;
+            --secondary: #000000;
+            --text: #ffffff;
+            --bg: #111111;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            background-image: url('https://i.ytimg.com/vi/uOpq6ulCkgA/maxresdefault.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            background-color: rgba(17, 17, 17, 0.85);
+        }
+        
+        .main-nav {
+            position: fixed;
+            width: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            margin-left: 20px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Стили для страницы концертов */
+        .concerts-page {
+            padding: 150px 20px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .concerts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .concert-card {
+            background-color: rgba(0,0,0,0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .concert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255,77,0,0.3);
+        }
+        
+        .concert-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .concert-info {
+            padding: 20px;
+        }
+        
+        .concert-info h3 {
+            margin: 0 0 10px;
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+        
+        .concert-date {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .concert-date i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .concert-location {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .concert-location i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .buy-button {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--text);
+            padding: 10px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .buy-button:hover {
+            background-color: #e64500;
+        }
+        
+        .europe-tag {
+            display: inline-block;
+            background-color: #0038ff;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        .upcoming-title {
+            font-size: 1.8rem;
+            margin: 60px 0 20px;
+            color: var(--primary);
+        }
+        
+        /* Форма покупки билетов */
+        .ticket-form {
+            background-color: rgba(0,0,0,0.7);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+            display: none;
+        }
+        
+        .ticket-form.active {
+            display: block;
+        }
+        
+        .form-title {
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .submit-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-button:hover {
+            background-color: #e64500;
+        }
+        
+        /* Карта */
+        .concert-map {
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 30px;
+            border: 2px solid var(--primary);
+        }
+        
+        .map-container {
+            margin: 40px 0;
+        }
+        
+        .map-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">MUPP</a>
+            <div class="nav-links">
+                <a href="music.html">Музыка</a>
+                <a href="video.html">Видео</a>
+                <a href="concerts.html" style="color: var(--primary);">Концерты</a>
+                <a href="merch.html">Мерч</a>
+                <a href="about.html">Обо мне</a>
+                <a href="contact.html">Контакты</a>
+            </div>
+        </div>
+    </nav>
+    
+    <section class="concerts-page">
+        <div class="container">
+            <h2 class="section-title">Концерты</h2>
+            
+            <h3 class="upcoming-title">Ближайшие выступления</h3>
+            
+            <div class="concerts-grid">
+                <div class="concert-card">
+                    <img src="https://i.ytimg.com/vi/1HUKupMXZdA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCCCvtBXvLfE-ZFh3lsZ0BN8PawRw" alt="Берлинский концерт" class="concert-image">
+                    <div class="concert-info">
+                        <h3>Vendetta Tour <span class="europe-tag">Европа</span></h3>
+                        <div class="concert-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            15 ноября 2023
+                        </div>
+                        <div class="concert-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Берлин, Германия | Mercedes-Benz Arena
+                        </div>
+                        <button class="buy-button" data-concert="berlin">Купить билеты</button>
+                    </div>
+                </div>
+                
+                <div class="concert-card">
+                    <img src="https://i.ytimg.com/vi/M0RPrXBMfac/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGH8gEygmMA8=&rs=AOn4CLDwsIWmrITU1KY7RyhKH-o60YaE4w" alt="Парижский концерт" class="concert-image">
+                    <div class="concert-info">
+                        <h3>Vendetta Tour <span class="europe-tag">Европа</span></h3>
+                        <div class="concert-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            22 ноября 2023
+                        </div>
+                        <div class="concert-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Париж, Франция | Accor Arena
+                        </div>
+                        <button class="buy-button" data-concert="paris">Купить билеты</button>
+                    </div>
+                </div>
+                
+                <div class="concert-card">
+                    <img src="https://i.ytimg.com/vi/8VJ0qrTJi_k/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAaxfOqs9LEwiCkLiCwnsYQLKAcPg" alt="Амстердамский концерт" class="concert-image">
+                    <div class="concert-info">
+                        <h3>Vendetta Tour <span class="europe-tag">Европа</span></h3>
+                        <div class="concert-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            5 декабря 2023
+                        </div>
+                        <div class="concert-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Амстердам, Нидерланды | Ziggo Dome
+                        </div>
+                        <button class="buy-button" data-concert="amsterdam">Купить билеты</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Форма покупки билетов -->
+            <div class="ticket-form" id="ticketForm">
+                <h3 class="form-title">Купить билеты</h3>
+                <form id="concertForm">
+                    <input type="hidden" id="concertLocation">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">ФИО</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tickets">Количество билетов</label>
+                            <select id="tickets" required>
+                                <option value="">Выберите</option>
+                                <option value="1">1 билет</option>
+                                <option value="2">2 билета</option>
+                                <option value="3">3 билета</option>
+                                <option value="4">4 билета</option>
+                                <option value="5">5 билетов</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Комментарий (необязательно)</label>
+                        <input type="text" id="comment">
+                    </div>
+                    <button type="submit" class="submit-button">Забронировать билеты</button>
+                </form>
+            </div>
+            
+            <!-- Карта с адресами концертов -->
+            <div class="map-container">
+                <h3 class="map-title">Места проведения концертов</h3>
+                <div class="concert-map" id="concertMap"></div>
+            </div>
+            
+            <h3 class="upcoming-title">Предстоящие туры</h3>
+            
+            <div class="concerts-grid">
+                <div class="concert-card">
+                    <img src="https://i.ytimg.com/vi/1HUKupMXZdA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCCCvtBXvLfE-ZFh3lsZ0BN8PawRw" alt="Европейский тур" class="concert-image">
+                    <div class="concert-info">
+                        <h3>Vendetta European Tour <span class="europe-tag">Европа</span></h3>
+                        <div class="concert-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            Январь-Март 2024
+                        </div>
+                        <div class="concert-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            12 городов Европы
+                        </div>
+                        <button class="buy-button">Информация о туре</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script>
+        // Выделение активной страницы в навигации
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.style.color = 'var(--primary)';
+            }
+        });
+        
+        // Обработка покупки билетов
+        const buyButtons = document.querySelectorAll('.buy-button');
+        const ticketForm = document.getElementById('ticketForm');
+        const concertLocation = document.getElementById('concertLocation');
+        
+        buyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const concert = this.getAttribute('data-concert');
+                if (concert) {
+                    concertLocation.value = concert;
+                    ticketForm.classList.add('active');
+                    ticketForm.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Обработка формы
+        document.getElementById('concertForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Ваша заявка принята! Мы свяжемся с вами для подтверждения бронирования.');
+            this.reset();
+            ticketForm.classList.remove('active');
+        });
+        
+        // Инициализация карты
+        const map = L.map('concertMap').setView([51.505, 10], 4);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Метки для концертов
+        const berlinMarker = L.marker([52.5104, 13.4025]).addTo(map)
+            .bindPopup("<b>Mercedes-Benz Arena</b><br>Берлин, Германия<br>15 ноября 2023");
+            
+        const parisMarker = L.marker([48.8385, 2.3788]).addTo(map)
+            .bindPopup("<b>Accor Arena</b><br>Париж, Франция<br>22 ноября 2023");
+            
+        const amsterdamMarker = L.marker([52.3134, 4.9362]).addTo(map)
+            .bindPopup("<b>Ziggo Dome</b><br>Амстердам, Нидерланды<br>5 декабря 2023");
+        
+        // Группа маркеров для автоматического подбора масштаба
+        const markers = L.layerGroup([berlinMarker, parisMarker, amsterdamMarker]);
+        map.fitBounds(markers.getBounds().pad(0.5));
+    </script>
+</body>
+</html>
