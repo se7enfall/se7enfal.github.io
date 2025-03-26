@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUPP | Официальный сайт</title>
+    <style>
+        :root {
+            --primary: #ff4d00;
+            --secondary: #000000;
+            --text: #ffffff;
+            --bg: #111111;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.genius.com/a3f8d964fede322d0f75a3c7daaa9ffc.1000x573x1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .main-nav {
+            position: fixed;
+            width: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+        
+        .cta-button {
+            background-color: var(--primary);
+            color: var(--text);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 77, 0, 0.3);
+        }
+        
+        .social-icons {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 1000;
+        }
+        
+        .social-icon {
+            color: var(--text);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-icon:hover {
+            color: var(--primary);
+        }
+        
+        .latest-release {
+            padding: 100px 20px;
+            text-align: center;
+        }
+        
+        .release-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .release-card {
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            text-align: left;
+        }
+        
+        .release-cover {
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+        
+        .release-cover:hover {
+            transform: scale(1.05);
+        }
+        
+        .release-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .release-info p {
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        .audio-player-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .custom-audio-player {
+            width: 100%;
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .player-button {
+            background-color: var(--primary);
+            color: var(--text);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .player-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .progress-container {
+            flex-grow: 1;
+            height: 5px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 5px;
+            width: 0%;
+        }
+        
+        .time-display {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            min-width: 80px;
+            text-align: right;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .volume-slider {
+            width: 80px;
+        }
+        
+        .stream-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stream-link {
+            color: var(--text);
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .stream-link:hover {
+            opacity: 1;
+        }
+        
+        footer {
+            background-color: var(--secondary);
+            padding: 50px 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .copyright {
+            opacity: 0.5;
+            font-size: 0.9rem;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">MUPP</a>
+            <div class="nav-links">
+                <a href="music.html">Музыка</a>
+                <a href="video.html">Видео</a>
+                <a href="concerts.html">Концерты</a>
+                <a href="merch.html">Мерч</a>
+                <a href="about.html">Обо мне</a>
+                <a href="contact.html">Контакты</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="social-icons">
+        <a href="https://www.youtube.com/watch?v=Cis4SaboWyw" class="social-icon" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.instagram.com/muppbroken/" class="social-icon" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+    </div>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>MUPP</h1>
+            <p>Новый сингл "Vendetta" уже доступен на всех платформах</p>
+            <button class="cta-button" onclick="document.getElementById('audioPlayer').play()">Слушать сейчас</button>
+        </div>
+    </section>
+    
+    <section class="latest-release">
+        <div class="release-container">
+            <h2 class="section-title">Последний релиз</h2>
+            <div class="release-card">
+                <img src="https://i.ytimg.com/vi/zcLSpmgpSHA/maxresdefault.jpg" alt="Обложка Vendetta" class="release-cover">
+                <div class="release-info">
+                    <h3>Vendetta</h3>
+                    <p>Сингл • 2023 • Sadfriendd x MUPP</p>
+                    <p>Хитовый трек, покоривший чарты и собравший миллионы прослушиваний</p>
+                    
+                    <div class="audio-player-container">
+                        <audio id="audioPlayer" src="C:\Users\user\Desktop\Сайт_MUPP\MUPP_-_MUPP_x_Sadfriendd_-_vendetta_II_(SkySound.cc).mp3"></audio>
+                        <div class="custom-audio-player">
+                            <button class="player-button" onclick="togglePlay()">
+                                <i id="playIcon" class="fas fa-play"></i>
+                            </button>
+                            <div class="progress-container" onclick="seek(event)">
+                                <div class="progress-bar" id="progressBar"></div>
+                            </div>
+                            <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
+                            <div class="volume-control">
+                                <i class="fas fa-volume-up"></i>
+                                <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0.7" oninput="setVolume(this.value)">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stream-links">
+                        <a href="https://music.yandex.ru/album/35369443?utm_source=desktop&utm_medium=copy_link" class="stream-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-yandex"></i> Яндекс.Музыка</a>
+                        <a href="https://open.spotify.com/track/..." class="stream-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-spotify"></i> Spotify</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="privacy.html">Политика конфиденциальности</a>
+                <a href="terms.html">Условия использования</a>
+                <a href="contact.html">Контакты</a>
+                <a href="media.html">Для прессы</a>
+            </div>
+            <p class="copyright">© 2025 MUPP. Все права защищены.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Анимация при прокрутке
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.main-nav');
+            if (window.scrollY > 50) {
+                nav.style.backgroundColor = 'rgba(0,0,0,0.9)';
+                nav.style.padding = '10px 0';
+            } else {
+                nav.style.backgroundColor = 'rgba(0,0,0,0.8)';
+                nav.style.padding = '20px 0';
+            }
+        });
+
+        // Аудиоплеер
+        const audioPlayer = document.getElementById('audioPlayer');
+        const progressBar = document.getElementById('progressBar');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const playIcon = document.getElementById('playIcon');
+
+        // Обновление прогресса
+        audioPlayer.addEventListener('timeupdate', updateProgress);
+        audioPlayer.addEventListener('loadedmetadata', function() {
+            updateTimeDisplay();
+        });
+
+        function togglePlay() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+            } else {
+                audioPlayer.pause();
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+            }
+        }
+
+        function updateProgress() {
+            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progressBar.style.width = `${progress}%`;
+            updateTimeDisplay();
+        }
+
+        function updateTimeDisplay() {
+            const currentTime = formatTime(audioPlayer.currentTime);
+            const duration = formatTime(audioPlayer.duration);
+            timeDisplay.textContent = `${currentTime} / ${duration}`;
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function seek(e) {
+            const percent = e.offsetX / e.target.offsetWidth;
+            audioPlayer.currentTime = percent * audioPlayer.duration;
+        }
+
+        function setVolume(volume) {
+            audioPlayer.volume = volume;
+        }
+
+        // Автоматическое обновление времени при загрузке страницы
+        audioPlayer.addEventListener('canplay', updateTimeDisplay);
+    </script>
+</body>
+</html>
