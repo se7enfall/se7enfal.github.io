@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUPP | Контакты</title>
+    <style>
+        :root {
+            --primary: #ff4d00;
+            --secondary: #000000;
+            --text: #ffffff;
+            --bg: #111111;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            background-image: url('https://images.genius.com/642280250ec924f91f55d6f2ec46850d.911x364x1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            background-color: rgba(17, 17, 17, 0.85);
+        }
+        
+        .main-nav {
+            position: fixed;
+            width: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            margin-left: 20px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Стили для страницы контактов */
+        .contact-page {
+            padding: 150px 20px 80px;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .contact-container {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .contact-info {
+            flex: 1;
+            background-color: rgba(0,0,0,0.7);
+            padding: 30px;
+            border-radius: 10px;
+        }
+        
+        .contact-form {
+            flex: 1;
+            background-color: rgba(0,0,0,0.7);
+            padding: 30px;
+            border-radius: 10px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-right: 15px;
+            margin-top: 3px;
+        }
+        
+        .contact-details h3 {
+            margin: 0 0 5px;
+            font-size: 1.3rem;
+        }
+        
+        .contact-details p, 
+        .contact-details a {
+            margin: 0;
+            opacity: 0.9;
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .contact-details a:hover {
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #e64500;
+        }
+        
+        .social-media {
+            margin-top: 40px;
+        }
+        
+        .social-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-link {
+            color: var(--text);
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .social-link:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+            background-color: rgba(255,77,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .contact-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">MUPP</a>
+            <div class="nav-links">
+                <a href="music.html">Музыка</a>
+                <a href="video.html">Видео</a>
+                <a href="concerts.html">Концерты</a>
+                <a href="merch.html">Мерч</a>
+                <a href="about.html">Обо мне</a>
+                <a href="contact.html" style="color: var(--primary);">Контакты</a>
+            </div>
+        </div>
+    </nav>
+    
+    <section class="contact-page">
+        <div class="container">
+            <h2 class="section-title">Контакты</h2>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Свяжитесь с нами</h3>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <a href="mailto:muppbeats@gmail.com">muppbeats@gmail.com</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Менеджер</h3>
+                            <p>По вопросам сотрудничества и концертов</p>
+                            <a href="mailto:mupp.management@mail.ru">mupp.management@mail.ru</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Мерч</h3>
+                            <p>По вопросам мерча и доставки</p>
+                            <a href="mailto:mupp.merch@mail.ru">mupp.merch@mail.ru</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Букеры</h3>
+                            <p>По вопросам выступлений</p>
+                            <a href="mailto:mupp.bookings@mail.ru">mupp.bookings@mail.ru</a>
+                        </div>
+                    </div>
+                    
+                    <div class="social-media">
+                        <h4 class="social-title">Социальные сети</h4>
+                        <div class="social-links">
+                            <a href="https://vk.com/muppbeats" target="_blank" class="social-link"><i class="fab fa-vk"></i></a>
+                            <a href="https://www.youtube.com/channel/UCWM6eXRMaCSyOSzFvm7Xodw" target="_blank" class="social-link"><i class="fab fa-youtube"></i></a>
+                            <a href="https://music.apple.com/us/artist/mupp/1524532406?l=ru" target="_blank" class="social-link"><i class="fab fa-apple"></i></a>
+                            <a href="https://open.spotify.com/artist/7B9Gg9epjQzfNGdxijFczG" target="_blank" class="social-link"><i class="fab fa-spotify"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Форма обратной связи</h3>
+                    <form id="feedbackForm">
+                        <div class="form-group">
+                            <label for="name">Ваше имя</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Тема</label>
+                            <input type="text" id="subject" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Сообщение</label>
+                            <textarea id="message" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Выделение активной страницы в навигации
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.style.color = 'var(--primary)';
+            }
+        });
+        
+        // Обработка формы
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Ваше сообщение отправлено! Мы свяжемся с вами в ближайшее время.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
