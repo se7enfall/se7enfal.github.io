@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUPP | Видео</title>
+    <style>
+        :root {
+            --primary: #ff4d00;
+            --secondary: #000000;
+            --text: #ffffff;
+            --bg: #111111;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            background-image: url('https://i.ytimg.com/vi/uOpq6ulCkgA/maxresdefault.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            background-color: rgba(17, 17, 17, 0.85);
+        }
+        
+        .main-nav {
+            position: fixed;
+            width: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            margin-left: 20px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Стили для страницы видео */
+        .video-page {
+            padding: 150px 20px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .video-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 50px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .video-player {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            position: relative;
+            background-color: #000;
+        }
+        
+        .video-player iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .video-info {
+            background-color: rgba(0,0,0,0.7);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .video-info h3 {
+            font-size: 1.8rem;
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .video-info p {
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .video-meta {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        .more-videos {
+            margin-top: 60px;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .video-thumbnail {
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .video-thumbnail:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255,77,0,0.2);
+        }
+        
+        .thumbnail-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        
+        .thumbnail-info {
+            padding: 15px;
+        }
+        
+        .thumbnail-info h4 {
+            margin: 0 0 5px;
+            font-size: 1.1rem;
+        }
+        
+        .thumbnail-info p {
+            margin: 0;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--primary);
+            font-size: 3rem;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+        
+        .video-thumbnail:hover .play-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .thumbnail-container {
+            position: relative;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">MUPP</a>
+            <div class="nav-links">
+                <a href="music.html">Музыка</a>
+                <a href="video.html" style="color: var(--primary);">Видео</a>
+                <a href="concerts.html">Концерты</a>
+                <a href="merch.html">Мерч</a>
+                <a href="about.html">Обо мне</a>
+                <a href="contact.html">Контакты</a>
+            </div>
+        </div>
+    </nav>
+    
+    <section class="video-page">
+        <div class="container">
+            <h2 class="section-title">Видео</h2>
+            
+            <div class="video-container">
+                <div class="video-player">
+                    <iframe src="https://www.youtube.com/watch?v=LE9imhIn2RM" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <div class="video-info">
+                <h3>MUPP - Vendetta (Official Video)</h3>
+                <p>Официальное видео на трек "Vendetta" от MUPP и Sadfriendd. Видео было снято в индустриальном стиле с элементами киберпанка, что полностью отражает атмосферу трека.</p>
+                <div class="video-meta">
+                    <span><i class="fas fa-eye"></i> 5.2M просмотров</span>
+                    <span><i class="fas fa-calendar-alt"></i> 15 марта 2023</span>
+                    <span><i class="fas fa-thumbs-up"></i> 245K</span>
+                </div>
+            </div>
+            
+            <div class="more-videos">
+                <h3>Другие видео</h3>
+                <div class="video-grid">
+                    <div class="video-thumbnail" onclick="openVideo('eOlPR3oKqcY')">
+                        <div class="thumbnail-container">
+                            <img src="https://i.ytimg.com/vi/eOlPR3oKqcY/maxresdefault.jpg" alt="MUPP - Vendetta II" class="thumbnail-image">
+                            <div class="play-icon"><i class="fas fa-play"></i></div>
+                        </div>
+                        <div class="thumbnail-info">
+                            <h4>MUPP - Vendetta II</h4>
+                            <p>Официальное видео на продолжение хита</p>
+                        </div>
+                    </div>
+                    
+                    <div class="video-thumbnail" onclick="openVideo('zP3FBTNBzsc')">
+                        <div class="thumbnail-container">
+                            <img src="https://i.ytimg.com/vi/zP3FBTNBzsc/maxresdefault.jpg" alt="MUPP - Live Performance" class="thumbnail-image">
+                            <div class="play-icon"><i class="fas fa-play"></i></div>
+                        </div>
+                        <div class="thumbnail-info">
+                            <h4>MUPP - Live Performance</h4>
+                            <p>Концертное исполнение хита Vendetta</p>
+                        </div>
+                    </div>
+                    
+                    <div class="video-thumbnail" onclick="openVideo('Cis4SaboWyw')">
+                        <div class="thumbnail-container">
+                            <img src="https://i.ytimg.com/vi/Cis4SaboWyw/maxresdefault.jpg" alt="Behind the Scenes" class="thumbnail-image">
+                            <div class="play-icon"><i class="fas fa-play"></i></div>
+                        </div>
+                        <div class="thumbnail-info">
+                            <h4>За кадром: Vendetta</h4>
+                            <p>Как создавалось видео Vendetta</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Выделение активной страницы в навигации
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.style.color = 'var(--primary)';
+            }
+        });
+        
+        // Функция для открытия видео
+        function openVideo(videoId) {
+            const videoContainer = document.querySelector('.video-container');
+            videoContainer.innerHTML = `
+                <div class="video-player">
+                    <iframe src="https://www.youtube.com/embed/${videoId}" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                </div>
+            `;
+            
+            // Обновляем информацию о видео в зависимости от выбранного
+            const videoInfo = document.querySelector('.video-info');
+            switch(videoId) {
+                case 'eOlPR3oKqcY':
+                    videoInfo.innerHTML = `
+                        <h3>MUPP - Vendetta II (Official Video)</h3>
+                        <p>Официальное видео на продолжение хита "Vendetta II". Видео сохраняет стилистику первой части, но с ещё более масштабными сценами.</p>
+                        <div class="video-meta">
+                            <span><i class="fas fa-eye"></i> 3.8M просмотров</span>
+                            <span><i class="fas fa-calendar-alt"></i> 10 июня 2023</span>
+                            <span><i class="fas fa-thumbs-up"></i> 198K</span>
+                        </div>
+                    `;
+                    break;
+                case 'zP3FBTNBzsc':
+                    videoInfo.innerHTML = `
+                        <h3>MUPP - Live Performance</h3>
+                        <p>Концертное исполнение хита Vendetta на крупном фестивале. Запись показывает энергетику живых выступлений MUPP.</p>
+                        <div class="video-meta">
+                            <span><i class="fas fa-eye"></i> 1.2M просмотров</span>
+                            <span><i class="fas fa-calendar-alt"></i> 5 августа 2023</span>
+                            <span><i class="fas fa-thumbs-up"></i> 87K</span>
+                        </div>
+                    `;
+                    break;
+                case 'Cis4SaboWyw':
+                    videoInfo.innerHTML = `
+                        <h3>За кадром: Vendetta</h3>
+                        <p>Эксклюзивные кадры со съёмочной площадки клипа Vendetta. Как создавались самые зрелищные сцены.</p>
+                        <div class="video-meta">
+                            <span><i class="fas fa-eye"></i> 856K просмотров</span>
+                            <span><i class="fas fa-calendar-alt"></i> 22 марта 2023</span>
+                            <span><i class="fas fa-thumbs-up"></i> 45K</span>
+                        </div>
+                    `;
+                    break;
+                default:
+                    videoInfo.innerHTML = `
+                        <h3>MUPP - Vendetta (Official Video)</h3>
+                        <p>Официальное видео на трек "Vendetta" от MUPP и Sadfriendd. Видео было снято в индустриальном стиле с элементами киберпанка, что полностью отражает атмосферу трека.</p>
+                        <div class="video-meta">
+                            <span><i class="fas fa-eye"></i> 5.2M просмотров</span>
+                            <span><i class="fas fa-calendar-alt"></i> 15 марта 2023</span>
+                            <span><i class="fas fa-thumbs-up"></i> 245K</span>
+                        </div>
+                    `;
+            }
+            
+            // Прокрутка к видео
+            videoContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Инициализация первого видео
+        openVideo('wOv1y5xrVKA');
+    </script>
+</body>
+</html>
