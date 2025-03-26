@@ -23,17 +23,19 @@
         
         .hero {
             height: 100vh;
+            min-height: 500px;
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                         url('https://images.genius.com/a3f8d964fede322d0f75a3c7daaa9ffc.1000x573x1.jpg');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-attachment: scroll;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             position: relative;
+            padding: 0 20px;
         }
         
         .hero::before {
@@ -50,6 +52,7 @@
         .hero-content {
             position: relative;
             z-index: 2;
+            width: 100%;
         }
 
         .main-nav {
@@ -57,7 +60,7 @@
             width: 100%;
             background-color: rgba(0,0,0,0.8);
             z-index: 1000;
-            padding: 20px 0;
+            padding: 15px 0;
         }
         
         .nav-container {
@@ -70,15 +73,26 @@
         }
         
         .logo {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
         }
         
         .nav-links {
+            display: none;
+            gap: 15px;
+        }
+        
+        .nav-links.show {
             display: flex;
-            gap: 30px;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0,0,0,0.9);
+            padding: 20px;
         }
         
         .nav-links a {
@@ -86,31 +100,42 @@
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
+            padding: 10px 0;
+            display: block;
         }
         
         .nav-links a:hover {
             color: var(--primary);
         }
         
+        .menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
         .hero-content h1 {
-            font-size: 4rem;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
             text-transform: uppercase;
         }
         
         .hero-content p {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            max-width: 800px;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            max-width: 100%;
         }
         
         .cta-button {
             background-color: var(--primary);
             color: var(--text);
-            padding: 15px 30px;
+            padding: 12px 25px;
             border: none;
             border-radius: 30px;
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
@@ -123,19 +148,27 @@
         
         .social-icons {
             position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
+            right: 15px;
+            top: auto;
+            bottom: 20px;
+            transform: none;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            flex-direction: row;
+            gap: 15px;
             z-index: 1000;
         }
         
         .social-icon {
             color: var(--text);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             transition: color 0.3s;
+            background-color: rgba(0,0,0,0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .social-icon:hover {
@@ -143,7 +176,7 @@
         }
         
         .latest-release {
-            padding: 100px 20px;
+            padding: 60px 20px;
             text-align: center;
         }
         
@@ -153,8 +186,8 @@
         }
         
         .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 50px;
+            font-size: 2rem;
+            margin-bottom: 30px;
             position: relative;
             display: inline-block;
         }
@@ -162,10 +195,10 @@
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
+            width: 80px;
             height: 3px;
             background-color: var(--primary);
         }
@@ -173,18 +206,19 @@
         .release-card {
             background-color: rgba(255,255,255,0.05);
             border-radius: 10px;
-            padding: 30px;
+            padding: 20px;
             max-width: 800px;
             margin: 0 auto;
             display: flex;
-            gap: 30px;
+            flex-direction: column;
+            gap: 20px;
             align-items: center;
-            text-align: left;
+            text-align: center;
         }
         
         .release-cover {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 5px;
             object-fit: cover;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -196,42 +230,45 @@
         }
         
         .release-info h3 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             margin-bottom: 10px;
         }
         
         .release-info p {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             opacity: 0.8;
+            font-size: 0.9rem;
         }
         
         .audio-player-container {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         
         .custom-audio-player {
             width: 100%;
             background-color: rgba(0,0,0,0.3);
             border-radius: 10px;
-            padding: 15px;
+            padding: 10px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
         .player-button {
             background-color: var(--primary);
             color: var(--text);
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             transition: transform 0.3s;
+            flex-shrink: 0;
         }
         
         .player-button:hover {
@@ -240,10 +277,11 @@
         
         .progress-container {
             flex-grow: 1;
-            height: 5px;
+            height: 4px;
             background-color: rgba(255,255,255,0.2);
             border-radius: 5px;
             cursor: pointer;
+            min-width: 100px;
         }
         
         .progress-bar {
@@ -254,32 +292,38 @@
         }
         
         .time-display {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             opacity: 0.7;
-            min-width: 80px;
+            min-width: 70px;
             text-align: right;
+            flex-shrink: 0;
         }
         
         .volume-control {
-            display: flex;
+            display: none;
             align-items: center;
             gap: 5px;
         }
         
         .volume-slider {
-            width: 80px;
+            width: 60px;
         }
         
         .stream-links {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
         }
         
         .stream-link {
             color: var(--text);
             opacity: 0.7;
             transition: opacity 0.3s;
+            font-size: 0.9rem;
+            display: block;
+            padding: 8px 0;
         }
         
         .stream-link:hover {
@@ -288,7 +332,7 @@
         
         footer {
             background-color: var(--secondary);
-            padding: 50px 20px;
+            padding: 40px 20px;
             text-align: center;
         }
         
@@ -299,9 +343,10 @@
         
         .footer-links {
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            gap: 30px;
-            margin-bottom: 30px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
         
         .footer-links a {
@@ -309,6 +354,7 @@
             text-decoration: none;
             opacity: 0.7;
             transition: opacity 0.3s;
+            font-size: 0.9rem;
         }
         
         .footer-links a:hover {
@@ -317,7 +363,73 @@
         
         .copyright {
             opacity: 0.5;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+        }
+
+        /* Медиазапросы для планшетов и десктопов */
+        @media (min-width: 768px) {
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.3rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .menu-toggle {
+                display: none;
+            }
+            
+            .nav-links {
+                display: flex;
+                flex-direction: row;
+                position: static;
+                background-color: transparent;
+                padding: 0;
+            }
+            
+            .nav-links a {
+                padding: 0;
+            }
+            
+            .release-card {
+                flex-direction: row;
+                text-align: left;
+                padding: 30px;
+            }
+            
+            .stream-links {
+                flex-direction: row;
+            }
+            
+            .footer-links {
+                flex-direction: row;
+            }
+            
+            .volume-control {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.5rem;
+            }
+            
+            .social-icons {
+                flex-direction: column;
+                top: 50%;
+                bottom: auto;
+                transform: translateY(-50%);
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -327,7 +439,10 @@
     <nav class="main-nav">
         <div class="nav-container">
             <a href="index.html" class="logo">MUPP</a>
-            <div class="nav-links">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="navLinks">
                 <a href="music.html">Музыка</a>
                 <a href="video.html">Видео</a>
                 <a href="concerts.html">Концерты</a>
@@ -362,7 +477,7 @@
                     <p>Хитовый трек, покоривший чарты и собравший миллионы прослушиваний</p>
                     
                     <div class="audio-player-container">
-                        <audio id="audioPlayer" src="C:\Users\user\Desktop\Сайт_MUPP\MUPP_-_MUPP_x_Sadfriendd_-_vendetta_II_(SkySound.cc).mp3"></audio>
+                        <audio id="audioPlayer" src="audio/vendetta.mp3"></audio>
                         <div class="custom-audio-player">
                             <button class="player-button" onclick="togglePlay()">
                                 <i id="playIcon" class="fas fa-play"></i>
@@ -400,6 +515,14 @@
     </footer>
     
     <script>
+        // Мобильное меню
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('show');
+        });
+
         // Анимация при прокрутке
         window.addEventListener('scroll', function() {
             const nav = document.querySelector('.main-nav');
@@ -408,7 +531,7 @@
                 nav.style.padding = '10px 0';
             } else {
                 nav.style.backgroundColor = 'rgba(0,0,0,0.8)';
-                nav.style.padding = '20px 0';
+                nav.style.padding = '15px 0';
             }
         });
 
@@ -418,6 +541,12 @@
         const timeDisplay = document.getElementById('timeDisplay');
         const playIcon = document.getElementById('playIcon');
 
+        // Обработчик ошибок
+        audioPlayer.addEventListener('error', function() {
+            console.error('Ошибка загрузки аудио:', audioPlayer.error);
+            alert('Не удалось загрузить аудиофайл. Пожалуйста, проверьте подключение к интернету.');
+        });
+
         // Обновление прогресса
         audioPlayer.addEventListener('timeupdate', updateProgress);
         audioPlayer.addEventListener('loadedmetadata', function() {
@@ -426,25 +555,28 @@
 
         function togglePlay() {
             if (audioPlayer.paused) {
-                audioPlayer.play();
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
+                audioPlayer.play().catch(error => {
+                    console.error('Ошибка воспроизведения:', error);
+                    alert('Для воспроизведения требуется взаимодействие с сайтом. Нажмите на кнопку воспроизведения еще раз.');
+                });
+                playIcon.classList.replace('fa-play', 'fa-pause');
             } else {
                 audioPlayer.pause();
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
+                playIcon.classList.replace('fa-pause', 'fa-play');
             }
         }
 
         function updateProgress() {
-            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-            progressBar.style.width = `${progress}%`;
-            updateTimeDisplay();
+            if (audioPlayer.duration) {
+                const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                progressBar.style.width = `${progress}%`;
+                updateTimeDisplay();
+            }
         }
 
         function updateTimeDisplay() {
             const currentTime = formatTime(audioPlayer.currentTime);
-            const duration = formatTime(audioPlayer.duration);
+            const duration = formatTime(audioPlayer.duration || 0);
             timeDisplay.textContent = `${currentTime} / ${duration}`;
         }
 
@@ -455,16 +587,18 @@
         }
 
         function seek(e) {
-            const percent = e.offsetX / e.target.offsetWidth;
-            audioPlayer.currentTime = percent * audioPlayer.duration;
+            if (audioPlayer.duration) {
+                const percent = e.offsetX / e.target.offsetWidth;
+                audioPlayer.currentTime = percent * audioPlayer.duration;
+            }
         }
 
         function setVolume(volume) {
             audioPlayer.volume = volume;
         }
 
-        // Автоматическое обновление времени при загрузке страницы
-        audioPlayer.addEventListener('canplay', updateTimeDisplay);
+        // Инициализация при полной загрузке аудио
+        audioPlayer.addEventListener('canplaythrough', updateTimeDisplay);
     </script>
 </body>
 </html>
