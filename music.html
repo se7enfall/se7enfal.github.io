@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUPP | Музыка</title>
+    <style>
+        /* Основные стили из главной страницы */
+        :root {
+            --primary: #ff4d00;
+            --secondary: #000000;
+            --text: #ffffff;
+            --bg: #111111;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+        }
+        
+        .main-nav {
+            position: fixed;
+            width: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        /* Стили для страницы музыки */
+        .music-page {
+            padding: 120px 20px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .music-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .filter-button {
+            background: none;
+            border: 1px solid var(--primary);
+            color: var(--text);
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-button.active {
+            background-color: var(--primary);
+            color: var(--bg);
+        }
+        
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .album-card {
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .album-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .album-cover {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .album-info {
+            padding: 20px;
+        }
+        
+        .album-info h3 {
+            margin: 0 0 5px;
+            font-size: 1.2rem;
+        }
+        
+        .album-info p {
+            margin: 0 0 15px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        .play-button {
+            background-color: var(--primary);
+            color: var(--text);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .play-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .popular-tracks {
+            margin-top: 50px;
+        }
+        
+        .track-list {
+            margin-top: 20px;
+        }
+        
+        .track {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: rgba(255,255,255,0.05);
+            transition: background-color 0.3s;
+        }
+        
+        .track:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .track-number {
+            width: 30px;
+            opacity: 0.7;
+        }
+        
+        .track-info {
+            flex-grow: 1;
+            padding: 0 15px;
+        }
+        
+        .track-info h4 {
+            margin: 0 0 5px;
+            font-size: 1.1rem;
+        }
+        
+        .track-info p {
+            margin: 0;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        .track-duration {
+            opacity: 0.7;
+            margin-right: 15px;
+        }
+        
+        /* Аудиоплеер */
+        .audio-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--secondary);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .player-info {
+            flex-grow: 1;
+            padding: 0 20px;
+        }
+        
+        .player-title {
+            margin: 0 0 5px;
+        }
+        
+        .player-artist {
+            margin: 0;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        .progress-container {
+            flex-grow: 1;
+            height: 5px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 20px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 5px;
+            width: 0%;
+        }
+        
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 150px;
+        }
+        
+        .volume-slider {
+            width: 100%;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">MUPP</a>
+            <div class="nav-links">
+                <a href="music.html">Музыка</a>
+                <a href="video.html">Видео</a>
+                <a href="concerts.html">Концерты</a>
+                <a href="merch.html">Мерч</a>
+                <a href="about.html">Обо мне</a>
+                <a href="contact.html">Контакты</a>
+            </div>
+        </div>
+    </nav>
+    
+    <section class="music-page">
+        <div class="container">
+            <h2 class="section-title">Моя музыка</h2>
+            
+            <div class="music-filters">
+                <button class="filter-button active">Все</button>
+                <button class="filter-button">Альбомы</button>
+                <button class="filter-button">Синглы</button>
+                <button class="filter-button">Ремиксы</button>
+            </div>
+            
+            <div class="albums-grid">
+                <div class="album-card">
+                    <img src="https://sun9-56.userapi.com/s/v1/ig2/g1JkZ3jABWOkTocmEz1sLh0y17W74oghpcnC-iBeMkXMvxHctTqSq89-NICOz00-5Ls6k2MvPBNBduDyn6GoWjwk.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280&from=bu&u=55zQmSPeR5oDFWYdTYZpec41MxNeSLzl_uszVhL33HE&cs=807x807" alt="Vendetta" class="album-cover">
+                    <div class="album-info">
+                        <h3>Vendetta</h3>
+                        <p>2023 • Синглы</p>
+                        <button class="play-button" data-album="vendetta"><i class="fas fa-play"></i></button>
+                    </div>
+                </div>
+                
+                <div class="album-card">
+                    <img src="https://images.genius.com/6c3bb18883e1132997e8e85df5ed9684.1000x1000x1.png" alt="Vendetta II" class="album-cover">
+                    <div class="album-info">
+                        <h3>Vendetta II</h3>
+                        <p>2023 • Синглы</p>
+                        <button class="play-button" data-album="vendetta2"><i class="fas fa-play"></i></button>
+                    </div>
+                </div>
+                
+                <div class="album-card">
+                    <img src="https://i.ytimg.com/vi/zcLSpmgpSHA/maxresdefault.jpg" alt="Ремиксы" class="album-cover">
+                    <div class="album-info">
+                        <h3>Ремиксы</h3>
+                        <p>2023 • Сборник</p>
+                        <button class="play-button" data-album="remixes"><i class="fas fa-play"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="popular-tracks">
+                <h3>Популярные треки</h3>
+                <div class="track-list">
+                    <div class="track" data-src="vendetta_-_Sadfriendd_x_MUPP_sped_up_reverb_256_kbps_-_vendetta_-_Sadfriendd_x_MUPP_sped_up_r_(SkySound.cc).mp3" data-cover="https://sun9-56.userapi.com/s/v1/ig2/g1JkZ3jABWOkTocmEz1sLh0y17W74oghpcnC-iBeMkXMvxHctTqSq89-NICOz00-5Ls6k2MvPBNBduDyn6GoWjwk.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280&from=bu&u=55zQmSPeR5oDFWYdTYZpec41MxNeSLzl_uszVhL33HE&cs=807x807">
+                        <div class="track-number">1</div>
+                        <div class="track-info">
+                            <h4>Vendetta (Sped Up)</h4>
+                            <p>MUPP x Sadfriendd • 2023</p>
+                        </div>
+                        <div class="track-duration">2:11</div>
+                        <button class="play-button"><i class="fas fa-play"></i></button>
+                    </div>
+                    
+                    <div class="track" data-src="MUPP_-_MUPP_x_Sadfriendd_-_vendetta_II_(SkySound.cc).mp3" data-cover="https://images.genius.com/6c3bb18883e1132997e8e85df5ed9684.1000x1000x1.png">
+                        <div class="track-number">2</div>
+                        <div class="track-info">
+                            <h4>Vendetta II</h4>
+                            <p>MUPP x Sadfriendd • 2023</p>
+                        </div>
+                        <div class="track-duration">2:45</div>
+                        <button class="play-button"><i class="fas fa-play"></i></button>
+                    </div>
+                    
+                    <div class="track" data-src="Sadfriendd_x_MUPP_-_vendetta_(SkySound.cc).mp3" data-cover="https://i.ytimg.com/vi/zcLSpmgpSHA/maxresdefault.jpg">
+                        <div class="track-number">3</div>
+                        <div class="track-info">
+                            <h4>Vendetta</h4>
+                            <p>Sadfriendd x MUPP • 2023</p>
+                        </div>
+                        <div class="track-duration">2:31</div>
+                        <button class="play-button"><i class="fas fa-play"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Аудиоплеер -->
+    <div class="audio-player" style="display: none;">
+        <div class="player-controls">
+            <button id="prev-button"><i class="fas fa-step-backward"></i></button>
+            <button id="play-button"><i class="fas fa-play"></i></button>
+            <button id="next-button"><i class="fas fa-step-forward"></i></button>
+        </div>
+        <div class="player-info">
+            <h4 class="player-title">Название трека</h4>
+            <p class="player-artist">MUPP</p>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+            <div class="time-info">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
+            </div>
+        </div>
+        <div class="volume-control">
+            <i class="fas fa-volume-up"></i>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
+        </div>
+    </div>
+    
+    <script>
+        // Фильтрация музыки
+        const filterButtons = document.querySelectorAll('.filter-button');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                // Здесь будет код фильтрации
+            });
+        });
+        
+        // Аудиоплеер
+        const audioPlayer = document.querySelector('.audio-player');
+        const audio = new Audio();
+        let currentTrack = 0;
+        let isPlaying = false;
+        const tracks = [
+            {
+                title: "Vendetta (Sped Up)",
+                artist: "MUPP x Sadfriendd",
+                src: "vendetta_-_Sadfriendd_x_MUPP_sped_up_reverb_256_kbps_-_vendetta_-_Sadfriendd_x_MUPP_sped_up_r_(SkySound.cc).mp3",
+                cover: "https://sun9-56.userapi.com/s/v1/ig2/g1JkZ3jABWOkTocmEz1sLh0y17W74oghpcnC-iBeMkXMvxHctTqSq89-NICOz00-5Ls6k2MvPBNBduDyn6GoWjwk.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280&from=bu&u=55zQmSPeR5oDFWYdTYZpec41MxNeSLzl_uszVhL33HE&cs=807x807",
+                duration: "2:11"
+            },
+            {
+                title: "Vendetta II",
+                artist: "MUPP x Sadfriendd",
+                src: "MUPP_-_MUPP_x_Sadfriendd_-_vendetta_II_(SkySound.cc).mp3",
+                cover: "https://images.genius.com/6c3bb18883e1132997e8e85df5ed9684.1000x1000x1.png",
+                duration: "2:45"
+            },
+            {
+                title: "Vendetta",
+                artist: "Sadfriendd x MUPP",
+                src: "Sadfriendd_x_MUPP_-_vendetta_(SkySound.cc).mp3",
+                cover: "https://i.ytimg.com/vi/zcLSpmgpSHA/maxresdefault.jpg",
+                duration: "2:31"
+            }
+        ];
+        
+        // Элементы плеера
+        const playButton = document.getElementById('play-button');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const playerTitle = document.querySelector('.player-title');
+        const playerArtist = document.querySelector('.player-artist');
+        const progressBar = document.querySelector('.progress-bar');
+        const currentTimeEl = document.querySelector('.current-time');
+        const durationEl = document.querySelector('.duration');
+        const progressContainer = document.querySelector('.progress-container');
+        const volumeSlider = document.querySelector('.volume-slider');
+        
+        // Воспроизведение трека
+        function loadTrack(trackIndex) {
+            const track = tracks[trackIndex];
+            audio.src = track.src;
+            playerTitle.textContent = track.title;
+            playerArtist.textContent = track.artist;
+            durationEl.textContent = track.duration;
+            
+            audio.addEventListener('loadedmetadata', () => {
+                durationEl.textContent = formatTime(audio.duration);
+            });
+            
+            if (isPlaying) {
+                audio.play();
+                playButton.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            
+            audioPlayer.style.display = 'flex';
+        }
+        
+        // Форматирование времени
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+        
+        // Обновление прогресса
+        function updateProgress() {
+            const { currentTime, duration } = audio;
+            const progressPercent = (currentTime / duration) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            currentTimeEl.textContent = formatTime(currentTime);
+        }
+        
+        // Установка прогресса
+        function setProgress(e) {
+            const width = this.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            audio.currentTime = (clickX / width) * duration;
+        }
+        
+        // Переключение треков
+        function nextTrack() {
+            currentTrack = (currentTrack + 1) % tracks.length;
+            loadTrack(currentTrack);
+        }
+        
+        function prevTrack() {
+            currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+            loadTrack(currentTrack);
+        }
+        
+        // Обработчики событий
+        playButton.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playButton.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audio.play();
+                playButton.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isPlaying = !isPlaying;
+        });
+        
+        nextButton.addEventListener('click', nextTrack);
+        prevButton.addEventListener('click', prevTrack);
+        
+        audio.addEventListener('timeupdate', updateProgress);
+        audio.addEventListener('ended', nextTrack);
+        progressContainer.addEventListener('click', setProgress);
+        
+        volumeSlider.addEventListener('input', () => {
+            audio.volume = volumeSlider.value;
+        });
+        
+        // Воспроизведение треков из списка
+        const trackElements = document.querySelectorAll('.track');
+        trackElements.forEach((track, index) => {
+            track.querySelector('.play-button').addEventListener('click', () => {
+                currentTrack = index;
+                isPlaying = true;
+                loadTrack(currentTrack);
+                playButton.innerHTML = '<i class="fas fa-pause"></i>';
+            });
+        });
+        
+        // Воспроизведение альбомов
+        const albumButtons = document.querySelectorAll('.album-card .play-button');
+        albumButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Здесь можно добавить логику для воспроизведения всего альбома
+                currentTrack = 0;
+                isPlaying = true;
+                loadTrack(currentTrack);
+                playButton.innerHTML = '<i class="fas fa-pause"></i>';
+            });
+        });
+    </script>
+</body>
+</html>
