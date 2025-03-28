@@ -31,6 +31,12 @@
             background-color: rgba(0,0,0,0.8);
             z-index: 1000;
             padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .main-nav.scrolled {
+            padding: 10px 0;
+            background-color: rgba(0,0,0,0.9);
         }
         
         .nav-container {
@@ -47,18 +53,39 @@
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
+            transition: transform 0.3s;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
         }
         
         .nav-links a {
             color: var(--text);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s;
             margin-left: 20px;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s;
         }
         
         .nav-links a:hover {
             color: var(--primary);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
         }
         
         /* Стили для страницы мерча */
@@ -75,6 +102,7 @@
             margin-bottom: 40px;
             position: relative;
             display: inline-block;
+            animation: fadeInUp 1s ease;
         }
         
         .section-title::after {
@@ -82,9 +110,11 @@
             position: absolute;
             bottom: -10px;
             left: 0;
-            width: 100%;
+            width: 0;
             height: 3px;
             background-color: var(--primary);
+            animation: expandWidth 1s ease forwards;
+            animation-delay: 0.5s;
         }
         
         .merch-grid {
@@ -98,18 +128,31 @@
             background-color: rgba(0,0,0,0.7);
             border-radius: 10px;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
+        .merch-item:nth-child(1) { animation-delay: 0.2s; }
+        .merch-item:nth-child(2) { animation-delay: 0.4s; }
+        .merch-item:nth-child(3) { animation-delay: 0.6s; }
+        
         .merch-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255,77,0,0.3);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(255,77,0,0.3);
         }
         
         .merch-image {
             width: 100%;
             height: 300px;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .merch-item:hover .merch-image {
+            transform: scale(1.05);
         }
         
         .merch-info {
@@ -120,6 +163,11 @@
             margin: 0 0 10px;
             font-size: 1.4rem;
             color: var(--primary);
+            transition: color 0.3s;
+        }
+        
+        .merch-item:hover h3 {
+            color: #fff;
         }
         
         .merch-price {
@@ -133,10 +181,25 @@
             margin: 10px 0;
             opacity: 0.9;
             line-height: 1.5;
+            height: 60px;
+            overflow: hidden;
+            transition: height 0.3s;
+        }
+        
+        .merch-item:hover .merch-description {
+            height: auto;
         }
         
         .size-selector {
             margin: 15px 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .merch-item:hover .size-selector {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .size-selector select {
@@ -146,6 +209,13 @@
             color: var(--text);
             border: 1px solid #444;
             width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .size-selector select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(255,77,0,0.2);
         }
         
         .add-to-cart {
@@ -158,11 +228,51 @@
             border-radius: 5px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
         
         .add-to-cart:hover {
             background-color: #e64500;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,77,0,0.4);
+        }
+        
+        .add-to-cart:active {
+            transform: translateY(0);
+        }
+        
+        .add-to-cart::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .add-to-cart:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        .more-info {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .more-info:hover {
+            text-decoration: underline;
         }
         
         /* Форма заказа */
@@ -172,10 +282,15 @@
             border-radius: 10px;
             margin-top: 40px;
             display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
         }
         
         .order-form.active {
             display: block;
+            transform: translateY(0);
+            opacity: 1;
         }
         
         .form-title {
@@ -204,6 +319,15 @@
             border: 1px solid #444;
             background-color: rgba(255,255,255,0.1);
             color: var(--text);
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus, 
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(255,77,0,0.2);
         }
         
         .form-row {
@@ -223,11 +347,19 @@
             border-radius: 5px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
         
         .submit-order:hover {
             background-color: #e64500;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,77,0,0.4);
+        }
+        
+        .submit-order:active {
+            transform: translateY(0);
         }
         
         .cart-items {
@@ -235,6 +367,7 @@
             border: 1px solid #333;
             border-radius: 5px;
             padding: 15px;
+            background-color: rgba(0,0,0,0.3);
         }
         
         .cart-item {
@@ -242,6 +375,11 @@
             justify-content: space-between;
             padding: 10px 0;
             border-bottom: 1px solid #333;
+            transition: all 0.3s;
+        }
+        
+        .cart-item:hover {
+            background-color: rgba(255,77,0,0.1);
         }
         
         .cart-item:last-child {
@@ -253,6 +391,167 @@
             font-weight: 700;
             text-align: right;
             margin-top: 15px;
+            color: var(--primary);
+        }
+        
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: var(--bg);
+            border-radius: 10px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--primary);
+        }
+        
+        .modal-product {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .modal-product {
+                flex-direction: row;
+            }
+        }
+        
+        .modal-image {
+            flex: 1;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+        
+        .modal-info {
+            flex: 1;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-top: 0;
+        }
+        
+        .modal-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 15px 0;
+            color: var(--primary);
+        }
+        
+        .modal-description {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .modal-features {
+            margin-bottom: 20px;
+        }
+        
+        .modal-features h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .modal-features ul {
+            padding-left: 20px;
+        }
+        
+        .modal-features li {
+            margin-bottom: 8px;
+        }
+        
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes expandWidth {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 1;
+            }
+            20% {
+                transform: scale(25, 25);
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(40, 40);
+            }
+        }
+        
+        /* Анимация появления при скролле */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -279,11 +578,12 @@
             
             <div class="merch-grid">
                 <div class="merch-item">
-                    <img src="https://sun9-18.userapi.com/impg/uKfBfz-VBkNJyv-5b4HJsE35wsZEX-xsOr7VjA/sqniang1Xgo.jpg?size=604x575&quality=96&sign=32fe7ebb7194d684a084654e7a31e4cd&type=album" alt="Футболка Vendetta" class="merch-image">
+                    <img src="https://sun9-18.userapi.com/impg/uKfBfz-VBkNJyv-5b4HJsE35wsZEX-xsOr7VjA/sqniang1Xgo.jpg?size=604x575&quality=96&sign=32fe7ebb7194d684a084654e7a31e4cd&type=album" alt="Худи Vendetta" class="merch-image">
                     <div class="merch-info">
                         <h3>Худи "Vendetta"</h3>
                         <div class="merch-price">3,499 ₽</div>
                         <p class="merch-description">Черная худи с принтом Vendetta. 100% хлопок, качественная печать.</p>
+                        <a class="more-info" data-item="0">Подробнее о товаре</a>
                         <div class="size-selector">
                             <select class="size-select">
                                 <option value="">Выберите размер</option>
@@ -294,16 +594,17 @@
                                 <option value="XXL">XXL</option>
                             </select>
                         </div>
-                        <button class="add-to-cart" data-item="Футболка Vendetta" data-price="3499">Добавить в корзину</button>
+                        <button class="add-to-cart" data-item="Худи Vendetta" data-price="3499">Добавить в корзину</button>
                     </div>
                 </div>
                 
                 <div class="merch-item">
-                    <img src="https://sun9-45.userapi.com/s/v1/ig2/irJHXmn4_ACnQzZKH4K1O8hLcvv--h4LNpqXIMoZqnKn6RQ4RLSepqMgYYGuxsMGNnhs9W8Ni-rN0HoyjANFcuPF.jpg?quality=96&as=32x30,48x46,72x69,108x103,160x152,240x228,360x343,480x457,540x514,640x609,720x685,1080x1028,1280x1218,1440x1370,1550x1475&from=bu&u=0iYHq0tDyf4pNeTaWIK__aQCiiVZjPZALacd6bdK2aA&cs=604x575" alt="Худи MUPP" class="merch-image">
+                    <img src="https://sun9-45.userapi.com/s/v1/ig2/irJHXmn4_ACnQzZKH4K1O8hLcvv--h4LNpqXIMoZqnKn6RQ4RLSepqMgYYGuxsMGNnhs9W8Ni-rN0HoyjANFcuPF.jpg?quality=96&as=32x30,48x46,72x69,108x103,160x152,240x228,360x343,480x457,540x514,640x609,720x685,1080x1028,1280x1218,1440x1370,1550x1475&from=bu&u=0iYHq0tDyf4pNeTaWIK__aQCiiVZjPZALacd6bdK2aA&cs=604x575" alt="Футболка MUPP" class="merch-image">
                     <div class="merch-info">
                         <h3>Футболка "MUPP"</h3>
                         <div class="merch-price">5,999 ₽</div>
                         <p class="merch-description">Черная футболка с логотипом MUPP. Теплый и удобный, 80% хлопок, 20% полиэстер.</p>
+                        <a class="more-info" data-item="1">Подробнее о товаре</a>
                         <div class="size-selector">
                             <select class="size-select">
                                 <option value="">Выберите размер</option>
@@ -314,23 +615,24 @@
                                 <option value="XXL">XXL</option>
                             </select>
                         </div>
-                        <button class="add-to-cart" data-item="Худи MUPP" data-price="5999">Добавить в корзину</button>
+                        <button class="add-to-cart" data-item="Футболка MUPP" data-price="5999">Добавить в корзину</button>
                     </div>
                 </div>
                 
                 <div class="merch-item">
-                    <img src="https://basket-15.wbbasket.ru/vol2203/part220307/220307644/images/big/3.webp" alt="Кепка MUPP" class="merch-image">
+                    <img src="https://basket-15.wbbasket.ru/vol2203/part220307/220307644/images/big/3.webp" alt="Кофта MUPP" class="merch-image">
                     <div class="merch-info">
                         <h3>Кофта "MUPP"</h3>
                         <div class="merch-price">2,499 ₽</div>
                         <p class="merch-description">Черная кофта с вышитым логотипом MUPP. </p>
+                        <a class="more-info" data-item="2">Подробнее о товаре</a>
                         <div class="size-selector">
                             <select class="size-select">
                                 <option value="">Выберите размер</option>
                                 <option value="One Size">One Size</option>
                             </select>
                         </div>
-                        <button class="add-to-cart" data-item="Кепка MUPP" data-price="2499">Добавить в корзину</button>
+                        <button class="add-to-cart" data-item="Кофта MUPP" data-price="2499">Добавить в корзину</button>
                     </div>
                 </div>
             </div>
@@ -340,7 +642,6 @@
                 <h3 class="form-title">Оформление заказа</h3>
                 <form id="merchOrderForm">
                     <div class="cart-items" id="cartItems">
-                        <!-- Здесь будут отображаться товары в корзине -->
                         <p>Ваша корзина пуста</p>
                     </div>
                     <div class="cart-total" id="cartTotal">
@@ -386,13 +687,100 @@
         </div>
     </section>
     
+    <!-- Модальное окно с подробной информацией -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-product" id="modalProductContent">
+                <!-- Контент будет загружен через JavaScript -->
+            </div>
+        </div>
+    </div>
+    
     <script>
+        // Данные товаров для модального окна
+        const products = [
+            {
+                title: "Худи 'Vendetta'",
+                price: "3,499 ₽",
+                image: "https://sun9-18.userapi.com/impg/uKfBfz-VBkNJyv-5b4HJsE35wsZEX-xsOr7VjA/sqniang1Xgo.jpg?size=604x575&quality=96&sign=32fe7ebb7194d684a084654e7a31e4cd&type=album",
+                description: "Черная худи с уникальным принтом 'Vendetta' - это стильный и удобный предмет гардероба, который подчеркнет вашу индивидуальность. Принт выполнен с использованием высококачественной печати, которая не выцветает и не трескается после множества стирок.",
+                features: [
+                    "100% хлопок премиального качества",
+                    "Плотность ткани: 320 г/м²",
+                    "Капюшон с регулируемыми шнурками",
+                    "Карман-кенгуру спереди",
+                    "Манжеты и низ на резинке для лучшей посадки",
+                    "Усиленные швы для долговечности",
+                    "Размеры: S, M, L, XL, XXL",
+                    "Уход: машинная стирка при 30°C, не отбеливать, гладить при средней температуре"
+                ]
+            },
+            {
+                title: "Футболка 'MUPP'",
+                price: "5,999 ₽",
+                image: "https://sun9-45.userapi.com/s/v1/ig2/irJHXmn4_ACnQzZKH4K1O8hLcvv--h4LNpqXIMoZqnKn6RQ4RLSepqMgYYGuxsMGNnhs9W8Ni-rN0HoyjANFcuPF.jpg?quality=96&as=32x30,48x46,72x69,108x103,160x152,240x228,360x343,480x457,540x514,640x609,720x685,1080x1028,1280x1218,1440x1370,1550x1475&from=bu&u=0iYHq0tDyf4pNeTaWIK__aQCiiVZjPZALacd6bdK2aA&cs=604x575",
+                description: "Черная футболка с логотипом MUPP - это базовый элемент гардероба, выполненный из высококачественного хлопка с добавлением полиэстера для лучшей износостойкости. Логотип нанесен методом шелкографии, что гарантирует его долговечность.",
+                features: [
+                    "80% хлопок, 20% полиэстер",
+                    "Плотность ткани: 180 г/м²",
+                    "Классический крой",
+                    "Круглый вырез горловины",
+                    "Двойная строчка по краям для прочности",
+                    "Размеры: S, M, L, XL, XXL",
+                    "Уход: машинная стирка при 30°C, не отбеливать, гладить с изнанки"
+                ]
+            },
+            {
+                title: "Кофта 'MUPP'",
+                price: "2,499 ₽",
+                image: "https://basket-15.wbbasket.ru/vol2203/part220307/220307644/images/big/3.webp",
+                description: "Черная кофта с вышитым логотипом MUPP - это универсальный предмет гардероба, который подойдет как для повседневной носки, так и для создания стильного образа. Вышивка выполнена качественными нитями, которые не линяют и не выцветают со временем.",
+                features: [
+                    "100% хлопок",
+                    "Плотность ткани: 240 г/м²",
+                    "Вышивка логотипа на груди",
+                    "Классический крой",
+                    "Манжеты и низ на резинке",
+                    "Универсальный размер (One Size)",
+                    "Подходит для мужчин и женщин",
+                    "Уход: машинная стирка при 30°C, не отбеливать, не гладить по вышивке"
+                ]
+            }
+        ];
+
         // Выделение активной страницы в навигации
         document.querySelectorAll('.nav-links a').forEach(link => {
             if (link.href === window.location.href) {
                 link.style.color = 'var(--primary)';
             }
         });
+        
+        // Анимация навигации при скролле
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+        
+        // Анимация появления элементов при скролле
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('animated');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Инициализация при загрузке
         
         // Корзина
         let cart = [];
@@ -423,6 +811,12 @@
                 updateCart();
                 orderForm.classList.add('active');
                 orderForm.scrollIntoView({ behavior: 'smooth' });
+                
+                // Анимация добавления в корзину
+                this.classList.add('clicked');
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                }, 300);
             });
         });
         
@@ -463,6 +857,10 @@
         function removeItem(index) {
             cart.splice(index, 1);
             updateCart();
+            
+            if (cart.length === 0) {
+                orderForm.classList.remove('active');
+            }
         }
         
         // Оформление заказа
@@ -477,6 +875,75 @@
             updateCart();
             this.reset();
             orderForm.classList.remove('active');
+        });
+        
+        // Модальное окно для подробной информации
+        const modal = document.getElementById('productModal');
+        const modalContent = document.getElementById('modalProductContent');
+        const closeModal = document.querySelector('.close-modal');
+        
+        document.querySelectorAll('.more-info').forEach(link => {
+            link.addEventListener('click', function() {
+                const productIndex = parseInt(this.getAttribute('data-item'));
+                const product = products[productIndex];
+                
+                modalContent.innerHTML = `
+                    <img src="${product.image}" alt="${product.title}" class="modal-image">
+                    <div class="modal-info">
+                        <h3 class="modal-title">${product.title}</h3>
+                        <div class="modal-price">${product.price}</div>
+                        <p class="modal-description">${product.description}</p>
+                        <div class="modal-features">
+                            <h4>Характеристики:</h4>
+                            <ul>
+                                ${product.features.map(feature => `<li>${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <button class="add-to-cart" style="margin-top: 20px;" 
+                                data-item="${product.title}" 
+                                data-price="${product.price.replace(/\D/g, '')}">
+                            Добавить в корзину
+                        </button>
+                    </div>
+                `;
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Добавляем обработчик для кнопки в модальном окне
+                const modalAddToCart = modalContent.querySelector('.add-to-cart');
+                if (modalAddToCart) {
+                    modalAddToCart.addEventListener('click', function() {
+                        const item = this.getAttribute('data-item');
+                        const price = parseInt(this.getAttribute('data-price'));
+                        
+                        // Добавляем товар в корзину (без размера)
+                        cart.push({
+                            name: item,
+                            price: price,
+                            size: 'One Size'
+                        });
+                        
+                        updateCart();
+                        orderForm.classList.add('active');
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                        orderForm.scrollIntoView({ behavior: 'smooth' });
+                    });
+                }
+            });
+        });
+        
+        closeModal.addEventListener('click', function() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         });
     </script>
 </body>
