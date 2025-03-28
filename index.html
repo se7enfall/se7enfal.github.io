@@ -25,7 +25,7 @@
             height: 100vh;
             min-height: 500px;
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('https://images.genius.com/a3f8d964fede322d0f75a3c7daaa9ffc.1000x573x1.jpg');
+                        url('https://images.genius.com/590b5b2518684256b99dfc43ac271abc.999x562x1.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: scroll;
@@ -223,6 +223,7 @@
             object-fit: cover;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             transition: transform 0.3s;
+            animation: pulse 4s infinite ease-in-out;
         }
         
         .release-cover:hover {
@@ -330,6 +331,42 @@
             opacity: 1;
         }
         
+        .about-section {
+            padding: 60px 20px;
+            background-color: rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .collaborations {
+            margin-top: 40px;
+        }
+        
+        .collab-item {
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .collab-title {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
         footer {
             background-color: var(--secondary);
             padding: 40px 20px;
@@ -364,6 +401,59 @@
         .copyright {
             opacity: 0.5;
             font-size: 0.8rem;
+        }
+
+        /* New animations for collaboration tracks */
+        .collab-card {
+            flex: 1 1 300px;
+            max-width: 350px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .collab-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 77, 0, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .collab-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 77, 0, 0.2);
+        }
+
+        .collab-card:hover::before {
+            left: 100%;
+        }
+
+        .collab-image {
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: transform 0.5s ease;
+        }
+
+        .collab-card:hover .collab-image {
+            transform: scale(1.05);
+        }
+
+        .collab-card:hover .collab-title {
+            color: #ff4d00;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
         }
 
         /* Медиазапросы для планшетов и десктопов */
@@ -413,6 +503,11 @@
             .volume-control {
                 display: flex;
             }
+            
+            .about-content {
+                flex-direction: row;
+                align-items: center;
+            }
         }
 
         @media (min-width: 992px) {
@@ -456,13 +551,14 @@
     <div class="social-icons">
         <a href="https://www.youtube.com/watch?v=Cis4SaboWyw" class="social-icon" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
         <a href="https://www.instagram.com/muppbroken/" class="social-icon" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+        <a href="https://vk.com/muppbroken" class="social-icon" target="_blank" rel="noopener noreferrer"><i class="fab fa-vk"></i></a>
     </div>
     
     <section class="hero">
         <div class="hero-content">
             <h1>MUPP</h1>
-            <p>Новый сингл "Vendetta" уже доступен на всех платформах</p>
-            <button class="cta-button" onclick="document.getElementById('audioPlayer').play()">Слушать сейчас</button>
+            <p>Российский хип-хоп исполнитель из Санкт-Петербурга</p>
+            <button class="cta-button" onclick="document.getElementById('audioPlayer').play()">Слушать новый трек</button>
         </div>
     </section>
     
@@ -470,14 +566,14 @@
         <div class="release-container">
             <h2 class="section-title">Последний релиз</h2>
             <div class="release-card">
-                <img src="https://i.ytimg.com/vi/zcLSpmgpSHA/maxresdefault.jpg" alt="Обложка Vendetta" class="release-cover">
+                <img src=https://sun9-77.userapi.com/s/v1/ig2/2UORRVytshb6pwSZUUuLhQ4zS9u28QAGnq28AhmZuPc_yl-kIhHhSiUmgbTI8gjgzLOaiSH5fqqrmxPEXM1BUVL4.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440,2560x2560&from=bu&u=_r__LG1aE1Rzp6GCULs4ITWye0hY0LORYjxRxMdJlqE&cs=807x807 alt="Обложка Vendetta" class="release-cover">
                 <div class="release-info">
                     <h3>Vendetta</h3>
                     <p>Сингл • 2023 • Sadfriendd x MUPP</p>
                     <p>Хитовый трек, покоривший чарты и собравший миллионы прослушиваний</p>
                     
                     <div class="audio-player-container">
-                        <audio id="audioPlayer" src="audio/vendetta.mp3"></audio>
+                        <audio id="audioPlayer" src="vendetta_-_Sadfriendd_x_MUPP_sped_up_reverb_256_kbps_-_vendetta_-_Sadfriendd_x_MUPP_sped_up_r_(SkySound.cc).mp3"></audio>
                         <div class="custom-audio-player">
                             <button class="player-button" onclick="togglePlay()">
                                 <i id="playIcon" class="fas fa-play"></i>
@@ -496,6 +592,52 @@
                     <div class="stream-links">
                         <a href="https://music.yandex.ru/album/35369443?utm_source=desktop&utm_medium=copy_link" class="stream-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-yandex"></i> Яндекс.Музыка</a>
                         <a href="https://open.spotify.com/track/..." class="stream-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-spotify"></i> Spotify</a>
+                        <a href="https://music.apple.com/ru/album/..." class="stream-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-apple"></i> Apple Music</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about-section">
+        <div class="about-container">
+            <h2 class="section-title">Об исполнителе</h2>
+            <div class="about-content">
+                <div style="background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('photo_2025-03-28_14-01-14.jpg'); background-size: cover; background-position: center; padding: 20px; border-radius: 10px;">
+                    <h3>Биография</h3>
+                    <p>MUPP (настоящее имя - Артём) - российский хип-хоп исполнитель из Санкт-Петербурга, известный своими мрачными и эмоциональными текстами, а также узнаваемым вокалом. Начал свою музыкальную карьеру в 2019 году и быстро завоевал популярность в андеграунд-сцене.</p>
+                    <p>Его стиль сочетает в себе элементы трэпа, эмо-рэпа и альтернативного хип-хопа. MUPP часто сотрудничает с другими известными исполнителями, такими как Cursed, Sadfriendd и другими.</p>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4>Цитаты MUPP:</h4>
+                        <p style="font-style: italic; color: var(--primary);">"Музыка - это мой крик в пустоту, который возвращается эхом."</p>
+                        <p style="font-style: italic; color: var(--primary);">"Мы все носим маски, но моя - самая честная."</p>
+                        <p style="font-style: italic; color: var(--primary);">"Тьма внутри меня ярче любого искусственного света."</p>
+                    </div>
+                </div>
+                <div class="collaborations">
+                    <h3>Совместные работы с Cursed</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+                        <div class="collab-card">
+                            <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_660d5fc1e5eb1c524f15db96_660d8eaa04ad7515a5086a19/scale_1200" alt="Плачь" class="collab-image">
+                            <h4 class="collab-title">"Плачь" (2022)</h4>
+                            <p style="font-style: italic; color: var(--primary);">"Слезы - это не слабость, а оружие."</p>
+                            <p>Первый совместный трек, ставший визитной карточкой дуэта.</p>
+                        </div>
+                        
+                        <div class="collab-card">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02e715f4c33915e4c5943f2086" alt="Темные улицы" class="collab-image">
+                            <h4 class="collab-title">"Темные улицы" (2023)</h4>
+                            <p style="font-style: italic; color: var(--primary);">"Город не спит, он просто притворяется."</p>
+                            <p>Мрачный трек о ночной жизни и внутренних демонах.</p>
+                        </div>
+                        
+                        <div class="collab-card">
+                            <img src="https://i1.sndcdn.com/artworks-CrTCPisgzysZ2Hfl-WH15RQ-t500x500.jpg" alt="Без чувств" class="collab-image">
+                            <h4 class="collab-title">"Без чувств" (2023)</h4>
+                            <p style="font-style: italic; color: var(--primary);">"Онемение - это боль, которая разучилась кричать."</p>
+                            <p>Эмоциональный трек о сложных отношениях.</p>
+                        </div>
                     </div>
                 </div>
             </div>
