@@ -17,8 +17,26 @@
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--bg);
             color: var(--text);
+            background-color: var(--bg);
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('C:\Users\user\Desktop\Сайт_MUPP\photo_2025-03-28_14-01-14 (2).jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
         }
         
         .main-nav {
@@ -27,6 +45,13 @@
             background-color: rgba(0,0,0,0.8);
             z-index: 1000;
             padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .main-nav.scrolled {
+            padding: 15px 0;
+            background-color: rgba(0,0,0,0.9);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         
         .nav-container {
@@ -43,20 +68,54 @@
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
         }
         
         .nav-links a {
             color: var(--text);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
+            margin-left: 20px;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
         }
         
         /* Стили для страницы музыки */
         .music-page {
-            padding: 120px 20px 50px;
+            padding: 120px 20px 100px;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .section-title {
@@ -74,6 +133,13 @@
             width: 100%;
             height: 3px;
             background-color: var(--primary);
+            transform-origin: left;
+            animation: scaleIn 0.8s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
         }
         
         .music-filters {
@@ -92,9 +158,11 @@
             transition: all 0.3s;
         }
         
-        .filter-button.active {
+        .filter-button.active, .filter-button:hover {
             background-color: var(--primary);
             color: var(--bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 77, 0, 0.3);
         }
         
         .albums-grid {
@@ -108,26 +176,55 @@
             background-color: rgba(255,255,255,0.05);
             border-radius: 10px;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+        
+        .album-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 77, 0, 0.1), transparent);
+            transition: 0.5s;
         }
         
         .album-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(255,77,0,0.3);
+        }
+        
+        .album-card:hover::before {
+            left: 100%;
         }
         
         .album-cover {
             width: 100%;
             height: 250px;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .album-card:hover .album-cover {
+            transform: scale(1.05);
         }
         
         .album-info {
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
         
         .album-info h3 {
             margin: 0 0 5px;
             font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .album-card:hover .album-info h3 {
+            color: var(--primary);
         }
         
         .album-info p {
@@ -147,15 +244,22 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
         }
         
         .play-button:hover {
             transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 77, 0, 0.5);
         }
         
         .popular-tracks {
             margin-top: 50px;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .track-list {
@@ -169,11 +273,29 @@
             border-radius: 5px;
             margin-bottom: 10px;
             background-color: rgba(255,255,255,0.05);
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .track::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 77, 0, 0.1), transparent);
+            transition: 0.5s;
         }
         
         .track:hover {
             background-color: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+        
+        .track:hover::before {
+            left: 100%;
         }
         
         .track-number {
@@ -189,6 +311,11 @@
         .track-info h4 {
             margin: 0 0 5px;
             font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .track:hover .track-info h4 {
+            color: var(--primary);
         }
         
         .track-info p {
@@ -214,6 +341,12 @@
             align-items: center;
             z-index: 1000;
             box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .audio-player.active {
+            transform: translateY(0);
         }
         
         .player-controls {
@@ -229,6 +362,11 @@
         
         .player-title {
             margin: 0 0 5px;
+            transition: color 0.3s ease;
+        }
+        
+        .audio-player:hover .player-title {
+            color: var(--primary);
         }
         
         .player-artist {
@@ -244,6 +382,11 @@
             border-radius: 5px;
             cursor: pointer;
             margin: 0 20px;
+            transition: height 0.3s ease;
+        }
+        
+        .progress-container:hover {
+            height: 8px;
         }
         
         .progress-bar {
@@ -251,6 +394,7 @@
             background-color: var(--primary);
             border-radius: 5px;
             width: 0%;
+            transition: width 0.1s linear;
         }
         
         .time-info {
@@ -270,23 +414,116 @@
         
         .volume-slider {
             width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .volume-slider:hover {
+            opacity: 1;
+        }
+        
+        /* Анимация загрузки */
+        .loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .loader.active {
+            display: flex;
+        }
+        
+        .loader-circle {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .nav-links.mobile-active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: rgba(0,0,0,0.9);
+                padding: 20px;
+            }
+            
+            .nav-links a {
+                margin: 10px 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: var(--text);
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .albums-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .audio-player {
+                flex-wrap: wrap;
+                padding: 10px;
+            }
+            
+            .progress-container {
+                order: 1;
+                width: 100%;
+                margin: 10px 0;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <nav class="main-nav">
+    <div class="loader" id="loader">
+        <div class="loader-circle"></div>
+    </div>
+    
+    <nav class="main-nav" id="mainNav">
         <div class="nav-container">
             <a href="index.html" class="logo">MUPP</a>
-            <div class="nav-links">
-                <a href="music.html">Музыка</a>
+            <div class="nav-links" id="navLinks">
+                <a href="music.html" style="color: var(--primary);">Музыка</a>
                 <a href="video.html">Видео</a>
                 <a href="concerts.html">Концерты</a>
                 <a href="merch.html">Мерч</a>
                 <a href="about.html">Обо мне</a>
                 <a href="contact.html">Контакты</a>
             </div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
     
@@ -368,7 +605,7 @@
     </section>
     
     <!-- Аудиоплеер -->
-    <div class="audio-player" style="display: none;">
+    <div class="audio-player" id="audioPlayer">
         <div class="player-controls">
             <button id="prev-button"><i class="fas fa-step-backward"></i></button>
             <button id="play-button"><i class="fas fa-play"></i></button>
@@ -379,7 +616,7 @@
             <p class="player-artist">MUPP</p>
         </div>
         <div class="progress-container">
-            <div class="progress-bar"></div>
+            <div class="progress-bar" id="progressBar"></div>
             <div class="time-info">
                 <span class="current-time">0:00</span>
                 <span class="duration">0:00</span>
@@ -404,7 +641,7 @@
         });
         
         // Аудиоплеер
-        const audioPlayer = document.querySelector('.audio-player');
+        const audioPlayerElement = document.getElementById('audioPlayer');
         const audio = new Audio();
         let currentTrack = 0;
         let isPlaying = false;
@@ -438,7 +675,7 @@
         const nextButton = document.getElementById('next-button');
         const playerTitle = document.querySelector('.player-title');
         const playerArtist = document.querySelector('.player-artist');
-        const progressBar = document.querySelector('.progress-bar');
+        const progressBar = document.getElementById('progressBar');
         const currentTimeEl = document.querySelector('.current-time');
         const durationEl = document.querySelector('.duration');
         const progressContainer = document.querySelector('.progress-container');
@@ -461,7 +698,7 @@
                 playButton.innerHTML = '<i class="fas fa-pause"></i>';
             }
             
-            audioPlayer.style.display = 'flex';
+            audioPlayerElement.classList.add('active');
         }
         
         // Форматирование времени
@@ -536,12 +773,36 @@
         const albumButtons = document.querySelectorAll('.album-card .play-button');
         albumButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Здесь можно добавить логику для воспроизведения всего альбома
                 currentTrack = 0;
                 isPlaying = true;
                 loadTrack(currentTrack);
                 playButton.innerHTML = '<i class="fas fa-pause"></i>';
             });
+        });
+        
+        // Прокрутка навигации
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+        
+        // Мобильное меню
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('mobile-active');
+        });
+        
+        // Выделение активной страницы в навигации
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.style.color = 'var(--primary)';
+            }
         });
     </script>
 </body>
