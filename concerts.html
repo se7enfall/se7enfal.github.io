@@ -17,12 +17,25 @@
             margin: 0;
             padding: 0;
             color: var(--text);
+            background-color: var(--bg);
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: url('https://i.ytimg.com/vi/uOpq6ulCkgA/maxresdefault.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            background-blend-mode: overlay;
-            background-color: rgba(17, 17, 17, 0.85);
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
         }
         
         .main-nav {
@@ -31,6 +44,13 @@
             background-color: rgba(0,0,0,0.8);
             z-index: 1000;
             padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .main-nav.scrolled {
+            padding: 15px 0;
+            background-color: rgba(0,0,0,0.9);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         
         .nav-container {
@@ -47,18 +67,39 @@
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
         }
         
         .nav-links a {
             color: var(--text);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
             margin-left: 20px;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
         }
         
         .nav-links a:hover {
             color: var(--primary);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
         }
         
         /* Стили для страницы концертов */
@@ -68,6 +109,12 @@
             margin: 0 auto;
             position: relative;
             z-index: 1;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .section-title {
@@ -85,6 +132,13 @@
             width: 100%;
             height: 3px;
             background-color: var(--primary);
+            transform-origin: left;
+            animation: scaleIn 0.8s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
         }
         
         .concerts-grid {
@@ -98,28 +152,56 @@
             background-color: rgba(0,0,0,0.7);
             border-radius: 10px;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+        
+        .concert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 77, 0, 0.1), transparent);
+            transition: 0.5s;
         }
         
         .concert-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255,77,0,0.3);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(255,77,0,0.3);
+        }
+        
+        .concert-card:hover::before {
+            left: 100%;
         }
         
         .concert-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .concert-card:hover .concert-image {
+            transform: scale(1.05);
         }
         
         .concert-info {
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
         
         .concert-info h3 {
             margin: 0 0 10px;
             font-size: 1.4rem;
             color: var(--primary);
+            transition: color 0.3s ease;
+        }
+        
+        .concert-card:hover .concert-info h3 {
+            text-shadow: 0 0 10px rgba(255, 77, 0, 0.5);
         }
         
         .concert-date {
@@ -154,13 +236,15 @@
             border-radius: 5px;
             text-decoration: none;
             font-weight: 600;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
             border: none;
             cursor: pointer;
         }
         
         .buy-button:hover {
             background-color: #e64500;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 77, 0, 0.3);
         }
         
         .europe-tag {
@@ -178,6 +262,12 @@
             font-size: 1.8rem;
             margin: 60px 0 20px;
             color: var(--primary);
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         /* Форма покупки билетов */
@@ -187,6 +277,7 @@
             border-radius: 10px;
             margin: 40px 0;
             display: none;
+            animation: fadeIn 0.5s ease-out;
         }
         
         .ticket-form.active {
@@ -218,6 +309,14 @@
             border: 1px solid #444;
             background-color: rgba(255,255,255,0.1);
             color: var(--text);
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus, 
+        .form-group select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(255, 77, 0, 0.3);
+            outline: none;
         }
         
         .form-row {
@@ -237,11 +336,13 @@
             border-radius: 5px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
         }
         
         .submit-button:hover {
             background-color: #e64500;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 77, 0, 0.3);
         }
         
         /* Карта */
@@ -251,10 +352,16 @@
             overflow: hidden;
             margin-top: 30px;
             border: 2px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .concert-map:hover {
+            box-shadow: 0 10px 20px rgba(255, 77, 0, 0.3);
         }
         
         .map-container {
             margin: 40px 0;
+            animation: fadeInUp 1s ease-out;
         }
         
         .map-title {
@@ -262,16 +369,120 @@
             margin-bottom: 20px;
             color: var(--primary);
         }
+        
+        /* Тур информация */
+        .tour-details {
+            background-color: rgba(0,0,0,0.7);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .tour-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .tour-title {
+            font-size: 2rem;
+            margin: 0;
+            color: var(--primary);
+        }
+        
+        .tour-dates {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .tour-description {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .tour-cities {
+            margin-top: 30px;
+        }
+        
+        .city-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .city-item {
+            background-color: rgba(255,255,255,0.05);
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .city-item:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+        
+        .city-date {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .nav-links.mobile-active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: rgba(0,0,0,0.9);
+                padding: 20px;
+            }
+            
+            .nav-links a {
+                margin: 10px 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: var(--text);
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .concerts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
 </head>
 <body>
-    <nav class="main-nav">
+    <nav class="main-nav" id="mainNav">
         <div class="nav-container">
             <a href="index.html" class="logo">MUPP</a>
-            <div class="nav-links">
+            <div class="nav-links" id="navLinks">
                 <a href="music.html">Музыка</a>
                 <a href="video.html">Видео</a>
                 <a href="concerts.html" style="color: var(--primary);">Концерты</a>
@@ -279,6 +490,9 @@
                 <a href="about.html">Обо мне</a>
                 <a href="contact.html">Контакты</a>
             </div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
     
@@ -386,21 +600,143 @@
             
             <h3 class="upcoming-title">Предстоящие туры</h3>
             
-            <div class="concerts-grid">
-                <div class="concert-card">
-                    <img src="https://i.ytimg.com/vi/1HUKupMXZdA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCCCvtBXvLfE-ZFh3lsZ0BN8PawRw" alt="Европейский тур" class="concert-image">
-                    <div class="concert-info">
-                        <h3>Vendetta European Tour <span class="europe-tag">Европа</span></h3>
-                        <div class="concert-date">
-                            <i class="fas fa-calendar-alt"></i>
-                            Январь-Март 2024
+            <!-- Детализированная информация о туре -->
+            <div class="tour-details">
+                <div class="tour-header">
+                    <h3 class="tour-title">Vendetta European Tour 2024</h3>
+                    <span class="europe-tag">Европа</span>
+                </div>
+                <div class="tour-dates">
+                    <i class="fas fa-calendar-alt"></i> Январь - Март 2024
+                </div>
+                <div class="tour-description">
+                    <p>Полномасштабный европейский тур в поддержку нового альбома "Vendetta". В программе: 
+                    премьеры новых треков, специальные гости и уникальное световое шоу. Тур охватит 
+                    12 городов Европы, включая как крупные столицы, так и менее посещаемые локации.</p>
+                    
+                    <p>Каждый концерт будет уникальным - в зависимости от города мы подготовили 
+                    специальные сюрпризы для фанатов. В некоторых городах ожидаются совместные 
+                    выступления с местными исполнителями.</p>
+                </div>
+                
+                <div class="tour-cities">
+                    <h4><i class="fas fa-map-marked-alt"></i> Города и даты:</h4>
+                    <div class="city-list">
+                        <div class="city-item">
+                            <div class="city-date">15.01.2024</div>
+                            <div>Лондон, UK</div>
+                            <div>O2 Arena</div>
                         </div>
-                        <div class="concert-location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            12 городов Европы
+                        <div class="city-item">
+                            <div class="city-date">20.01.2024</div>
+                            <div>Барселона, ES</div>
+                            <div>Palau Sant Jordi</div>
                         </div>
-                        <button class="buy-button">Информация о туре</button>
+                        <div class="city-item">
+                            <div class="city-date">25.01.2024</div>
+                            <div>Милан, IT</div>
+                            <div>Mediolanum Forum</div>
+                        </div>
+                        <div class="city-item">
+                            <div class="city-date">02.02.2024</div>
+                            <div>Прага, CZ</div>
+                            <div>O2 Arena</div>
+                        </div>
+                        <div class="city-item">
+                            <div class="city-date">10.02.2024</div>
+                            <div>Вена, AT</div>
+                            <div>Wiener Stadthalle</div>
+                        </div>
+                        <div class="city-item">
+                            <div class="city-date">18.02.2024</div>
+                            <div>Варшава, PL</div>
+                            <div>Torwar Hall</div>
+                        </div>
+                        <div class="city-item">
+                            <div class="city-date">25.02.2024</div>
+                            <div>Будапешт, HU</div>
+                            <div>Budapest Arena</div>
+                        </div>
+                        <div class="city-item">
+                            <div class="city-date">05.03.2024</div>
+                            <div>Стокгольм, SE</div>
+                            <div>Avicii Arena</div>
+                        </div>
+                        <div class="city-item">
+                            <div class="city-date">12.03.2024</div>
+                            <div>Копенгаген, DK</div>
+                            <div>Royal Arena</div>
+                        </div>
+                        <div class="city-item">
+                            <div class="city-date">20.03.2024</div>
+                            <div>Хельсинки, FI</div>
+                            <div>Hartwall Arena</div>
+                        </div>
                     </div>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <button class="buy-button" style="margin-right: 15px;">
+                        <i class="fas fa-ticket-alt"></i> Купить билеты на тур
+                    </button>
+                    <button class="buy-button" style="background-color: transparent; border: 1px solid var(--primary);">
+                        <i class="fas fa-info-circle"></i> Подробнее о туре
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Дополнительный тур -->
+            <div class="tour-details">
+                <div class="tour-header">
+                    <h3 class="tour-title">Summer Festivals 2024</h3>
+                    <span class="europe-tag" style="background-color: #ff6b00;">Лето</span>
+                </div>
+                <div class="tour-dates">
+                    <i class="fas fa-calendar-alt"></i> Июнь - Август 2024
+                </div>
+                <div class="tour-description">
+                    <p>Участие в крупнейших музыкальных фестивалях Европы. В этом году MUPP выступит 
+                    на 5 престижных фестивалях, где представит специальную летнюю версию шоу.</p>
+                    
+                    <p>Фестивальные выступления будут отличаться от концертов тура - более динамичные 
+                    сеты, кавер-версии и неожиданные коллаборации с другими участниками фестивалей.</p>
+                </div>
+                
+                <div class="tour-cities">
+                    <h4><i class="fas fa-map-marked-alt"></i> Фестивали и даты:</h4>
+                    <div class="city-list">
+                        <div class="city-item">
+                            <div class="city-date">21.06.2024</div>
+                            <div>Гластонбери, UK</div>
+                            <div>Glastonbury Festival</div>
+                        </div>
+                        <div class="city-item">
+                            <div class="city-date">05.07.2024</div>
+                            <div>Роскилле, DK</div>
+                            <div>Roskilde Festival</div>
+                        </div>
+                        <div class="city-item">
+                            <div class="city-date">20.07.2024</div>
+                            <div>Берлин, DE</div>
+                            <div>Lollapalooza Berlin</div>
+                        </div>
+                        <div class="city-item">
+                            <div class="city-date">03.08.2024</div>
+                            <div>Будапешт, HU</div>
+                            <div>Sziget Festival</div>
+                        </div>
+                        <div class="city-item">
+                            <div class="city-date">15.08.2024</div>
+                            <div>Брешиа, IT</div>
+                            <div>Tomorrowland Italy</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <button class="buy-button" style="background-color: #ff6b00;">
+                        <i class="fas fa-campground"></i> Купить фестивальные билеты
+                    </button>
                 </div>
             </div>
         </div>
@@ -459,6 +795,24 @@
         // Группа маркеров для автоматического подбора масштаба
         const markers = L.layerGroup([berlinMarker, parisMarker, amsterdamMarker]);
         map.fitBounds(markers.getBounds().pad(0.5));
+        
+        // Прокрутка навигации
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+        
+        // Мобильное меню
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('mobile-active');
+        });
     </script>
 </body>
 </html>
