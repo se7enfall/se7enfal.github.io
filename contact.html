@@ -212,9 +212,123 @@
             background-color: rgba(255,77,0,0.2);
         }
         
+        /* Админ панель */
+        .admin-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .admin-toggle {
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .admin-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .admin-menu {
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            background-color: rgba(0,0,0,0.95);
+            border-radius: 10px;
+            padding: 15px;
+            width: 280px;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+        
+        .admin-menu.show {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        .admin-menu h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary);
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .admin-menu h3 i {
+            margin-right: 10px;
+        }
+        
+        .admin-section {
+            margin-bottom: 15px;
+        }
+        
+        .admin-section-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #777;
+            margin-bottom: 8px;
+            padding-left: 5px;
+        }
+        
+        .admin-menu a {
+            display: flex;
+            align-items: center;
+            color: var(--text);
+            padding: 8px 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+        
+        .admin-menu a:hover {
+            background-color: rgba(255, 77, 0, 0.2);
+            color: var(--primary);
+            padding-left: 15px;
+        }
+        
+        .admin-menu a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .admin-badge {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            margin-left: auto;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         @media (max-width: 768px) {
             .contact-container {
                 flex-direction: column;
+            }
+            
+            .admin-menu {
+                width: 250px;
+                right: -10px;
             }
         }
     </style>
@@ -328,6 +442,55 @@
         </div>
     </section>
     
+    <!-- Админ панель -->
+    <div class="admin-panel">
+        <div class="admin-menu" id="adminMenu">
+            <h3><i class="fas fa-user-shield"></i> Администратор</h3>
+            
+            <div class="admin-section">
+                <div class="admin-section-title">Основное</div>
+                <a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> Панель управления</a>
+                <a href="/admin/settings"><i class="fas fa-cog"></i> Настройки сайта</a>
+            </div>
+            
+            <div class="admin-section">
+                <div class="admin-section-title">Контент</div>
+                <a href="/admin/music"><i class="fas fa-music"></i> Управление музыкой</a>
+                <a href="/admin/videos"><i class="fas fa-video"></i> Управление видео</a>
+                <a href="/admin/content"><i class="fas fa-edit"></i> Редактор страниц</a>
+            </div>
+            
+            <div class="admin-section">
+                <div class="admin-section-title">Концерты</div>
+                <a href="/admin/concerts"><i class="fas fa-calendar-alt"></i> Все концерты</a>
+                <a href="/admin/concerts/add"><i class="fas fa-plus-circle"></i> Добавить концерт</a>
+                <a href="/admin/concerts/requests"><i class="fas fa-envelope"></i> Запросы на выступления <span class="admin-badge">3</span></a>
+            </div>
+            
+            <div class="admin-section">
+                <div class="admin-section-title">Мерч</div>
+                <a href="/admin/merch"><i class="fas fa-tshirt"></i> Товары</a>
+                <a href="/admin/merch/categories"><i class="fas fa-tags"></i> Категории</a>
+                <a href="/admin/orders"><i class="fas fa-shopping-cart"></i> Заказы <span class="admin-badge">5</span></a>
+                <a href="/admin/shipping"><i class="fas fa-truck"></i> Доставка</a>
+            </div>
+            
+            <div class="admin-section">
+                <div class="admin-section-title">Коммуникация</div>
+                <a href="/admin/messages"><i class="fas fa-envelope"></i> Сообщения <span class="admin-badge">12</span></a>
+                <a href="/admin/newsletter"><i class="fas fa-mail-bulk"></i> Рассылка</a>
+                <a href="/admin/comments"><i class="fas fa-comments"></i> Комментарии</a>
+            </div>
+            
+            <div class="admin-section">
+                <a href="/logout" style="color: #ff6b6b;"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+            </div>
+        </div>
+        <div class="admin-toggle" id="adminToggle">
+            <i class="fas fa-user-shield"></i>
+        </div>
+    </div>
+    
     <script>
         // Выделение активной страницы в навигации
         document.querySelectorAll('.nav-links a').forEach(link => {
@@ -341,6 +504,27 @@
             e.preventDefault();
             alert('Ваше сообщение отправлено! Мы свяжемся с вами в ближайшее время.');
             this.reset();
+        });
+        
+        // Админ панель - переключение видимости
+        document.getElementById('adminToggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('adminMenu').classList.toggle('show');
+        });
+        
+        // Закрытие админ меню при клике вне его
+        document.addEventListener('click', function(e) {
+            const adminMenu = document.getElementById('adminMenu');
+            if (adminMenu.classList.contains('show') && !e.target.closest('.admin-panel')) {
+                adminMenu.classList.remove('show');
+            }
+        });
+        
+        // Закрытие при нажатии ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('adminMenu').classList.remove('show');
+            }
         });
     </script>
 </body>
