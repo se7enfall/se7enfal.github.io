@@ -742,5 +742,370 @@
         // Инициализация при полной загрузке аудио
         audioPlayer.addEventListener('canplaythrough', updateTimeDisplay);
     </script>
+   
+
+<!-- Админ-панель (доступна только авторизованным пользователям) -->
+<div id="adminPanel" style="display: none; position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
+    <button id="adminToggle" style="background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
+        Админ-панель
+    </button>
+    <div id="adminMenu" style="display: none; background: rgba(0,0,0,0.9); padding: 15px; border-radius: 5px; margin-top: 10px; width: 250px;">
+        <h3 style="margin-top: 0; color: var(--primary);">Управление контентом</h3>
+        <ul style="list-style: none; padding: 0;">
+            <li><a href="#" onclick="showAdminSection('releases')" style="color: white; text-decoration: none; display: block; padding: 5px 0;">Редактировать релизы</a></li>
+            <li><a href="#" onclick="showAdminSection('collabs')" style="color: white; text-decoration: none; display: block; padding: 5px 0;">Редактировать коллаборации</a></li>
+            <li><a href="#" onclick="showAdminSection('bio')" style="color: white; text-decoration: none; display: block; padding: 5px 0;">Редактировать биографию</a></li>
+            <li><a href="#" onclick="logout()" style="color: white; text-decoration: none; display: block; padding: 5px 0;">Выйти</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Модальные окна для редактирования -->
+<div id="adminModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9998; overflow-y: auto;">
+    <div style="background: var(--bg); margin: 50px auto; padding: 20px; max-width: 800px; border-radius: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 id="modalTitle" style="margin: 0;"></h2>
+            <button onclick="closeModal()" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">×</button>
+        </div>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+<script>
+// Функции для работы админ-панели
+let currentAdminSection = '';
+
+// Проверка авторизации (в реальном проекте использовать сессии/токены)
+function checkAuth() {
+    // Здесь должна быть проверка авторизации через backend
+    const isAdmin = localStorage.getItem('adminLoggedIn') === 'true';
+    if (isAdmin) {
+        document.getElementById('adminPanel').style.display = 'block';
+    }
+}
+
+// Показать/скрыть меню админ-панели
+document.getElementById('adminToggle').addEventListener('click', function() {
+    const menu = document.getElementById('adminMenu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+});
+
+// Показать раздел администрирования
+function showAdminSection(section) {
+    currentAdminSection = section;
+    document.getElementById('adminMenu').style.display = 'none';
+    document.getElementById('modalTitle').textContent = getSectionTitle(section);
+    document.getElementById('modalContent').innerHTML = getSectionForm(section);
+    document.getElementById('adminModal').style.display = 'block';
+    
+    // Загрузка текущих данных
+    loadSectionData(section);
+}
+
+// Закрыть модальное окно
+function closeModal() {
+    document.getElementById('adminModal').style.display = 'none';
+}
+
+// Получить заголовок раздела
+function getSectionTitle(section) {
+    const titles = {
+        'releases': 'Управление релизами',
+        'collabs': 'Управление коллаборациями',
+        'bio': 'Редактирование биографии'
+    };
+    return titles[section] || 'Администрирование';
+}
+
+// Получить форму для раздела
+function getSectionForm(section) {
+    const forms = {
+        'releases': `
+            <form id="releaseForm">
+                <input type="hidden" id="releaseId">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Название релиза</label>
+                    <input type="text" id="releaseTitle" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">URL обложки</label>
+                    <input type="text" id="releaseCover" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Дата релиза</label>
+                    <input type="date" id="releaseDate" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Описание</label>
+                    <textarea id="releaseDesc" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px; min-height: 100px;"></textarea>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">URL аудио</label>
+                    <input type="text" id="releaseAudio" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px;">
+                </div>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button type="button" onclick="saveRelease()" style="background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Сохранить</button>
+                    <button type="button" onclick="closeModal()" style="background: #555; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Отмена</button>
+                </div>
+            </form>
+            <div id="releasesList" style="margin-top: 30px;"></div>
+        `,
+        'collabs': `
+            <form id="collabForm">
+                <input type="hidden" id="collabId">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Название коллаборации</label>
+                    <input type="text" id="collabTitle" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">URL изображения</label>
+                    <input type="text" id="collabImage" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Год</label>
+                    <input type="number" id="collabYear" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Цитата</label>
+                    <textarea id="collabQuote" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px; min-height: 60px;"></textarea>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Описание</label>
+                    <textarea id="collabDesc" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px; min-height: 100px;"></textarea>
+                </div>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button type="button" onclick="saveCollab()" style="background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Сохранить</button>
+                    <button type="button" onclick="closeModal()" style="background: #555; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Отмена</button>
+                </div>
+            </form>
+            <div id="collabsList" style="margin-top: 30px;"></div>
+        `,
+        'bio': `
+            <form id="bioForm">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Биография</label>
+                    <textarea id="bioText" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px; min-height: 150px;"></textarea>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Цитата 1</label>
+                    <textarea id="bioQuote1" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px; min-height: 60px;"></textarea>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Цитата 2</label>
+                    <textarea id="bioQuote2" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px; min-height: 60px;"></textarea>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Цитата 3</label>
+                    <textarea id="bioQuote3" style="width: 100%; padding: 8px; background: #333; border: 1px solid #444; color: white; border-radius: 4px; min-height: 60px;"></textarea>
+                </div>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button type="button" onclick="saveBio()" style="background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Сохранить</button>
+                    <button type="button" onclick="closeModal()" style="background: #555; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Отмена</button>
+                </div>
+            </form>
+        `
+    };
+    return forms[section] || '<p>Раздел не найден</p>';
+}
+
+// Загрузка данных раздела
+function loadSectionData(section) {
+    // В реальном проекте здесь должен быть AJAX-запрос к backend
+    switch(section) {
+        case 'releases':
+            // Загрузка списка релизов
+            fetchReleases();
+            break;
+        case 'collabs':
+            // Загрузка списка коллабораций
+            fetchCollabs();
+            break;
+        case 'bio':
+            // Загрузка биографии
+            fetchBio();
+            break;
+    }
+}
+
+// Функции для работы с релизами
+function fetchReleases() {
+    // Здесь должен быть AJAX-запрос для получения списка релизов
+    // Пример:
+    /*
+    fetch('/api/releases')
+        .then(response => response.json())
+        .then(data => {
+            let html = '<h3>Существующие релизы</h3><ul style="list-style: none; padding: 0;">';
+            data.forEach(release => {
+                html += `
+                    <li style="padding: 10px; background: rgba(255,255,255,0.05); margin-bottom: 10px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center;">
+                        <span>${release.title}</span>
+                        <div>
+                            <button onclick="editRelease(${release.id})" style="background: var(--primary); color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px;">Ред.</button>
+                            <button onclick="deleteRelease(${release.id})" style="background: #ff3333; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Удал.</button>
+                        </div>
+                    </li>
+                `;
+            });
+            html += '</ul><button onclick="newRelease()" style="background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Добавить релиз</button>';
+            document.getElementById('releasesList').innerHTML = html;
+        });
+    */
+    
+    // Заглушка для демонстрации
+    document.getElementById('releasesList').innerHTML = `
+        <h3>Существующие релизы</h3>
+        <ul style="list-style: none; padding: 0;">
+            <li style="padding: 10px; background: rgba(255,255,255,0.05); margin-bottom: 10px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center;">
+                <span>Vendetta</span>
+                <div>
+                    <button onclick="editRelease(1)" style="background: var(--primary); color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px;">Ред.</button>
+                    <button onclick="deleteRelease(1)" style="background: #ff3333; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Удал.</button>
+                </div>
+            </li>
+        </ul>
+        <button onclick="newRelease()" style="background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Добавить релиз</button>
+    `;
+}
+
+function newRelease() {
+    document.getElementById('releaseId').value = '';
+    document.getElementById('releaseTitle').value = '';
+    document.getElementById('releaseCover').value = '';
+    document.getElementById('releaseDate').value = '';
+    document.getElementById('releaseDesc').value = '';
+    document.getElementById('releaseAudio').value = '';
+}
+
+function editRelease(id) {
+    // Здесь должен быть AJAX-запрос для получения данных релиза
+    // Заглушка для демонстрации
+    if (id === 1) {
+        document.getElementById('releaseId').value = '1';
+        document.getElementById('releaseTitle').value = 'Vendetta';
+        document.getElementById('releaseCover').value = 'https://sun9-77.userapi.com/s/v1/ig2/2UORRVytshb6pwSZUUuLhQ4zS9u28QAGnq28AhmZuPc_yl-kIhHhSiUmgbTI8gjgzLOaiSH5fqqrmxPEXM1BUVL4.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440,2560x2560&from=bu&u=_r__LG1aE1Rzp6GCULs4ITWye0hY0LORYjxRxMdJlqE&cs=807x807';
+        document.getElementById('releaseDate').value = '2023-05-15';
+        document.getElementById('releaseDesc').value = 'Хитовый трек, покоривший чарты и собравший миллионы прослушиваний';
+        document.getElementById('releaseAudio').value = 'vendetta_-_Sadfriendd_x_MUPP_sped_up_reverb_256_kbps_-_vendetta_-_Sadfriendd_x_MUPP_sped_up_r_(SkySound.cc).mp3';
+    }
+}
+
+function saveRelease() {
+    const id = document.getElementById('releaseId').value;
+    const title = document.getElementById('releaseTitle').value;
+    const cover = document.getElementById('releaseCover').value;
+    const date = document.getElementById('releaseDate').value;
+    const desc = document.getElementById('releaseDesc').value;
+    const audio = document.getElementById('releaseAudio').value;
+    
+    // Здесь должен быть AJAX-запрос для сохранения данных
+    alert(`Релиз "${title}" ${id ? 'обновлен' : 'добавлен'}!`);
+    fetchReleases();
+}
+
+function deleteRelease(id) {
+    if (confirm('Вы уверены, что хотите удалить этот релиз?')) {
+        // Здесь должен быть AJAX-запрос для удаления
+        alert('Релиз удален!');
+        fetchReleases();
+    }
+}
+
+// Функции для работы с коллаборациями (аналогичны функциям для релизов)
+function fetchCollabs() {
+    // Заглушка для демонстрации
+    document.getElementById('collabsList').innerHTML = `
+        <h3>Существующие коллаборации</h3>
+        <ul style="list-style: none; padding: 0;">
+            <li style="padding: 10px; background: rgba(255,255,255,0.05); margin-bottom: 10px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center;">
+                <span>Плачь</span>
+                <div>
+                    <button onclick="editCollab(1)" style="background: var(--primary); color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px;">Ред.</button>
+                    <button onclick="deleteCollab(1)" style="background: #ff3333; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Удал.</button>
+                </div>
+            </li>
+        </ul>
+        <button onclick="newCollab()" style="background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Добавить коллаборацию</button>
+    `;
+}
+
+function newCollab() {
+    document.getElementById('collabId').value = '';
+    document.getElementById('collabTitle').value = '';
+    document.getElementById('collabImage').value = '';
+    document.getElementById('collabYear').value = '';
+    document.getElementById('collabQuote').value = '';
+    document.getElementById('collabDesc').value = '';
+}
+
+function editCollab(id) {
+    if (id === 1) {
+        document.getElementById('collabId').value = '1';
+        document.getElementById('collabTitle').value = 'Плачь';
+        document.getElementById('collabImage').value = 'https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_660d5fc1e5eb1c524f15db96_660d8eaa04ad7515a5086a19/scale_1200';
+        document.getElementById('collabYear').value = '2022';
+        document.getElementById('collabQuote').value = 'Слезы - это не слабость, а оружие.';
+        document.getElementById('collabDesc').value = 'Первый совместный трек, ставший визитной карточкой дуэта.';
+    }
+}
+
+function saveCollab() {
+    const id = document.getElementById('collabId').value;
+    const title = document.getElementById('collabTitle').value;
+    const image = document.getElementById('collabImage').value;
+    const year = document.getElementById('collabYear').value;
+    const quote = document.getElementById('collabQuote').value;
+    const desc = document.getElementById('collabDesc').value;
+    
+    alert(`Коллаборация "${title}" ${id ? 'обновлена' : 'добавлена'}!`);
+    fetchCollabs();
+}
+
+function deleteCollab(id) {
+    if (confirm('Вы уверены, что хотите удалить эту коллаборацию?')) {
+        alert('Коллаборация удалена!');
+        fetchCollabs();
+    }
+}
+
+// Функции для работы с биографией
+function fetchBio() {
+    // Заглушка для демонстрации
+    document.getElementById('bioText').value = 'MUPP (настоящее имя - Артём) - российский хип-хоп исполнитель из Санкт-Петербурга, известный своими мрачными и эмоциональными текстами, а также узнаваемым вокалом. Начал свою музыкальную карьеру в 2019 году и быстро завоевал популярность в андеграунд-сцене.';
+    document.getElementById('bioQuote1').value = 'Музыка - это мой крик в пустоту, который возвращается эхом.';
+    document.getElementById('bioQuote2').value = 'Мы все носим маски, но моя - самая честная.';
+    document.getElementById('bioQuote3').value = 'Тьма внутри меня ярче любого искусственного света.';
+}
+
+function saveBio() {
+    const bio = document.getElementById('bioText').value;
+    const quote1 = document.getElementById('bioQuote1').value;
+    const quote2 = document.getElementById('bioQuote2').value;
+    const quote3 = document.getElementById('bioQuote3').value;
+    
+    alert('Биография обновлена!');
+}
+
+// Выход из системы
+function logout() {
+    localStorage.removeItem('adminLoggedIn');
+    window.location.reload();
+}
+
+// Проверка авторизации при загрузке страницы
+checkAuth();
+
+// Для демонстрации - кнопка входа (в реальном проекте должна быть отдельная страница входа)
+document.addEventListener('DOMContentLoaded', function() {
+    if (!localStorage.getItem('adminLoggedIn')) {
+        const login = prompt('Введите пароль для доступа к админ-панели (демо: 123)');
+        if (login === '123') {
+            localStorage.setItem('adminLoggedIn', 'true');
+            checkAuth();
+        }
+    }
+});
+</script>
+   
 </body>
 </html>
