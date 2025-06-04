@@ -405,9 +405,7 @@
                         <h4 class="social-title">Социальные сети</h4>
                         <div class="social-links">
                             <a href="https://vk.com/muppbeats" target="_blank" class="social-link"><i class="fab fa-vk"></i></a>
-                            <a href="https://www.youtube.com/channel/UCWM6eXRMaCSyOSzFvm7Xodw" target="_blank" class="social-link"><i class="fab fa-youtube"></i></a>
-                            <a href="https://music.apple.com/us/artist/mupp/1524532406?l=ru" target="_blank" class="social-link"><i class="fab fa-apple"></i></a>
-                            <a href="https://open.spotify.com/artist/7B9Gg9epjQzfNGdxijFczG" target="_blank" class="social-link"><i class="fab fa-spotify"></i></a>
+                           
                         </div>
                     </div>
                 </div>
@@ -491,41 +489,6 @@
         </div>
     </div>
     
-    <script>
-        // Выделение активной страницы в навигации
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            if (link.href === window.location.href) {
-                link.style.color = 'var(--primary)';
-            }
-        });
-        
-        // Обработка формы
-        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Ваше сообщение отправлено! Мы свяжемся с вами в ближайшее время.');
-            this.reset();
-        });
-        
-        // Админ панель - переключение видимости
-        document.getElementById('adminToggle').addEventListener('click', function(e) {
-            e.stopPropagation();
-            document.getElementById('adminMenu').classList.toggle('show');
-        });
-        
-        // Закрытие админ меню при клике вне его
-        document.addEventListener('click', function(e) {
-            const adminMenu = document.getElementById('adminMenu');
-            if (adminMenu.classList.contains('show') && !e.target.closest('.admin-panel')) {
-                adminMenu.classList.remove('show');
-            }
-        });
-        
-        // Закрытие при нажатии ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                document.getElementById('adminMenu').classList.remove('show');
-            }
-        });
-    </script>
+   
 </body>
 </html>
