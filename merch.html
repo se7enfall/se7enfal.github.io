@@ -17,7 +17,7 @@
             margin: 0;
             padding: 0;
             color: var(--text);
-            background-image: url('https://i.ytimg.com/vi/uOpq6ulCkgA/maxresdefault.jpg');
+            background-image: url('photo_2025-03-28_14-01-14.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -253,7 +253,7 @@
             background: rgba(255, 255, 255, 0.5);
             opacity: 0;
             border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
+            transform: scale(0, 0) translate(-50%);
             transform-origin: 50% 50%;
         }
         
@@ -946,69 +946,5 @@
             }
         });
     </script>
-     <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
-<script>
-  // Вставьте сюда вашу конфигурацию
-  const firebaseConfig = {
-  apiKey: "AIzaSyDPp38I9LF0rHPgcvuDKFcbioKvrtkxOXs",
-  authDomain: "mupp-music1.firebaseapp.com",
-  projectId: "mupp-music1",
-  storageBucket: "mupp-music1.firebasestorage.app",
-  messagingSenderId: "1084719739829",
-  appId: "1:1084719739829:web:c9c5febb2ffa7538f45ffc",
-  measurementId: "G-YV893WKQHV"
-};
-  
-  // Инициализация Firebase
-  const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-</script>
-<script>
-    // Тестовая функция для записи данных
-    async function testFirestore() {
-      try {
-        await db.collection("test").add({
-          message: "Firestore работает!",
-          timestamp: new Date()
-        });
-        console.log("Данные успешно записаны!");
-      } catch (error) {
-        console.error("Ошибка записи: ", error);
-      }
-    }
-    
-    // Вызовите функцию при загрузке страницы
-    window.addEventListener('DOMContentLoaded', testFirestore);
-  </script>
-  <script>
-    async function testFirestoreWrite() {
-      try {
-        const docRef = await db.collection("testOrders").add({
-          test: "Проверка связи",
-          timestamp: new Date(),
-          working: true
-        });
-        console.log("Документ записан с ID: ", docRef.id);
-        return true;
-      } catch (error) {
-        console.error("Ошибка записи: ", error);
-        return false;
-      }
-    }
-  
-    // Вызовите функцию при загрузке
-    window.addEventListener('DOMContentLoaded', () => {
-      testFirestoreWrite().then(success => {
-        if (success) {
-          alert("Firestore работает! Проверьте консоль для деталей.");
-        } else {
-          alert("Ошибка при работе с Firestore. Проверьте консоль.");
-        }
-      });
-    });
-  </script>
 </body>
 </html>
