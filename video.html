@@ -29,7 +29,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://i.ytimg.com/vi/uOpq6ulCkgA/maxresdefault.jpg');
+            background-image: url('https://sun9-79.userapi.com/impg/5GGbqXeT0tP5XJ7XQY9Q7Q9QZ9QZ9QZ9QZ9QZ9Q.jpg?size=1280x720&quality=96&sign=9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9&type=album');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -165,7 +165,7 @@
             background-color: #000;
         }
         
-        .video-player iframe {
+        .video-player video {
             position: absolute;
             top: 0;
             left: 0;
@@ -417,56 +417,44 @@
             
             <div class="video-container">
                 <div class="video-player">
-                    <!-- Исправленный формат URL для встраивания -->
-                    <iframe src="https://www.youtube.com/embed/kw9siIb4LVw" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen></iframe>
+                    <video controls poster="assets/videos/poster_avoid_myself.jpg">
+                        <source src="assets/videos/zxcursed, MUPP - AVOID MYSELF.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео тег.
+                    </video>
                 </div>
             </div>
             
             <div class="video-info">
-                <h3>MUPP - Vendetta (Official Video)</h3>
-                <p>Официальное видео на трек "Vendetta" от MUPP и Sadfriendd. Видео было снято в индустриальном стиле с элементами киберпанка, что полностью отражает атмосферу трека. Режиссёр - Иван Петров, оператор - Алексей Смирнов.</p>
+                <h3>zxcursed, MUPP - AVOID MYSELF</h3>
+                <p>Официальное видео на трек "AVOID MYSELF" от zxcursed и MUPP. Видео отражает атмосферу трека с элементами киберпанка и мрачной эстетики.</p>
                 <div class="video-meta">
-                    <span><i class="fas fa-eye"></i> 5.2M просмотров</span>
-                    <span><i class="fas fa-calendar-alt"></i> 15 марта 2023</span>
-                    <span><i class="fas fa-thumbs-up"></i> 245K</span>
+                    <span><i class="fas fa-eye"></i> 3.5M просмотров</span>
+                    <span><i class="fas fa-calendar-alt"></i> 12 января 2023</span>
+                    <span><i class="fas fa-thumbs-up"></i> 198K</span>
                 </div>
             </div>
             
             <div class="more-videos">
                 <h3>Другие видео</h3>
                 <div class="video-grid">
-                    <div class="video-thumbnail" onclick="openVideo('dz6YbMtj74U')">
+                    <div class="video-thumbnail" onclick="loadVideo('assets/videos/zxcursed, mupp - fye.mp4', 'zxcursed, MUPP - FYE', 'Официальное видео на трек "FYE" от zxcursed и MUPP. Энергичный трек с мощным визуальным сопровождением.', '2.8M', '5 марта 2023', '156K')">
                         <div class="thumbnail-container">
-                            <img src="https://i.ytimg.com/vi/dz6YbMtj74U/maxresdefault.jpg" alt="MUPP - Другой трек" class="thumbnail-image">
+                            <img src="assets/videos/poster_fye.jpg" alt="zxcursed, MUPP - FYE" class="thumbnail-image">
                             <div class="play-icon"><i class="fas fa-play"></i></div>
                         </div>
                         <div class="thumbnail-info">
-                            <h4>MUPP - Другой трек</h4>
+                            <h4>zxcursed, MUPP - FYE</h4>
                             <p>Официальное видео</p>
                         </div>
                     </div>
                     
-                    <div class="video-thumbnail" onclick="openVideo('zcLSpmgpSHA')">
+                    <div class="video-thumbnail" onclick="loadVideo('assets/videos/zxcursed, mupp - haunt.mp4', 'zxcursed, MUPP - HAUNT', 'Официальное видео на трек "HAUNT" от zxcursed и MUPP. Мрачная атмосфера и запоминающаяся визуализация.', '1.9M', '22 февраля 2023', '124K')">
                         <div class="thumbnail-container">
-                            <img src="https://i.ytimg.com/vi/zcLSpmgpSHA/maxresdefault.jpg" alt="MUPP - Ещё один трек" class="thumbnail-image">
+                            <img src="assets/videos/poster_haunt.jpg" alt="zxcursed, MUPP - HAUNT" class="thumbnail-image">
                             <div class="play-icon"><i class="fas fa-play"></i></div>
                         </div>
                         <div class="thumbnail-info">
-                            <h4>MUPP - Ещё один трек</h4>
-                            <p>Официальное видео</p>
-                        </div>
-                    </div>
-                    
-                    <div class="video-thumbnail" onclick="openVideo('VhWvGvsL0AA')">
-                        <div class="thumbnail-container">
-                            <img src="https://i.ytimg.com/vi/VhWvGvsL0AA/maxresdefault.jpg" alt="MUPP - Последний трек" class="thumbnail-image">
-                            <div class="play-icon"><i class="fas fa-play"></i></div>
-                        </div>
-                        <div class="thumbnail-info">
-                            <h4>MUPP - Последний трек</h4>
+                            <h4>zxcursed, MUPP - HAUNT</h4>
                             <p>Официальное видео</p>
                         </div>
                     </div>
@@ -512,8 +500,8 @@
             }
         });
         
-        // Функция для открытия видео с анимацией
-        function openVideo(videoId) {
+        // Функция для загрузки видео
+        function loadVideo(videoUrl, title, description, views, date, likes) {
             const loader = document.getElementById('loader');
             loader.classList.add('active');
             
@@ -523,62 +511,26 @@
                 videoContainer.style.transform = 'translateY(20px)';
                 
                 setTimeout(() => {
-                    videoContainer.innerHTML = `
-                        <div class="video-player">
-                            <iframe src="https://www.youtube.com/embed/${videoId}" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                    allowfullscreen></iframe>
-                        </div>
+                    // Обновляем плеер с новым видео
+                    const videoPlayer = document.querySelector('.video-player');
+                    videoPlayer.innerHTML = `
+                        <video controls>
+                            <source src="${videoUrl}" type="video/mp4">
+                            Ваш браузер не поддерживает видео тег.
+                        </video>
                     `;
                     
-                    // Обновляем информацию о видео в зависимости от выбранного
+                    // Обновляем информацию о видео
                     const videoInfo = document.querySelector('.video-info');
-                    switch(videoId) {
-                        case 'dz6YbMtj74U':
-                            videoInfo.innerHTML = `
-                                <h3>MUPP - Другой трек (Official Video)</h3>
-                                <p>Официальное видео на трек. Видео было снято в индустриальном стиле с элементами киберпанка.</p>
-                                <div class="video-meta">
-                                    <span><i class="fas fa-eye"></i> 3.8M просмотров</span>
-                                    <span><i class="fas fa-calendar-alt"></i> 10 июня 2023</span>
-                                    <span><i class="fas fa-thumbs-up"></i> 198K</span>
-                                </div>
-                            `;
-                            break;
-                        case 'zcLSpmgpSHA':
-                            videoInfo.innerHTML = `
-                                <h3>MUPP - Ещё один трек (Official Video)</h3>
-                                <p>Официальное видео на трек. Видео сохраняет стилистику предыдущих работ.</p>
-                                <div class="video-meta">
-                                    <span><i class="fas fa-eye"></i> 1.2M просмотров</span>
-                                    <span><i class="fas fa-calendar-alt"></i> 5 августа 2023</span>
-                                    <span><i class="fas fa-thumbs-up"></i> 87K</span>
-                                </div>
-                            `;
-                            break;
-                        case 'VhWvGvsL0AA':
-                            videoInfo.innerHTML = `
-                                <h3>MUPP - Последний трек (Official Video)</h3>
-                                <p>Официальное видео на трек. Как создавались самые зрелищные сцены.</p>
-                                <div class="video-meta">
-                                    <span><i class="fas fa-eye"></i> 856K просмотров</span>
-                                    <span><i class="fas fa-calendar-alt"></i> 22 марта 2023</span>
-                                    <span><i class="fas fa-thumbs-up"></i> 45K</span>
-                                </div>
-                            `;
-                            break;
-                        default:
-                            videoInfo.innerHTML = `
-                                <h3>MUPP - Vendetta (Official Video)</h3>
-                                <p>Официальное видео на трек "Vendetta" от MUPP и Sadfriendd. Видео было снято в индустриальном стиле с элементами киберпанка, что полностью отражает атмосферу трека.</p>
-                                <div class="video-meta">
-                                    <span><i class="fas fa-eye"></i> 5.2M просмотров</span>
-                                    <span><i class="fas fa-calendar-alt"></i> 15 марта 2023</span>
-                                    <span><i class="fas fa-thumbs-up"></i> 245K</span>
-                                </div>
-                            `;
-                    }
+                    videoInfo.innerHTML = `
+                        <h3>${title}</h3>
+                        <p>${description}</p>
+                        <div class="video-meta">
+                            <span><i class="fas fa-eye"></i> ${views} просмотров</span>
+                            <span><i class="fas fa-calendar-alt"></i> ${date}</span>
+                            <span><i class="fas fa-thumbs-up"></i> ${likes}</span>
+                        </div>
+                    `;
                     
                     videoContainer.style.opacity = '1';
                     videoContainer.style.transform = 'translateY(0)';
@@ -589,9 +541,6 @@
                 }, 300);
             }, 300);
         }
-        
-        // Инициализация первого видео
-        openVideo('kw9siIb4LVw');
     </script>
 </body>
 </html>
