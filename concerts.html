@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -377,6 +378,24 @@
             border-radius: 10px;
             margin: 30px 0;
             animation: fadeIn 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tour-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .tour-content {
+            position: relative;
+            z-index: 1;
         }
         
         .tour-header {
@@ -476,7 +495,7 @@
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш_api_ключ&lang=ru_RU" type="text/javascript"></script>
 </head>
 <body>
     <nav class="main-nav" id="mainNav">
@@ -502,52 +521,52 @@
             
             <h3 class="upcoming-title">Ближайшие выступления</h3>
             
-            <div class="concerts-grid">
-                <div class="concert-card">
-                    <img src="https://i.ytimg.com/vi/1HUKupMXZdA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCCCvtBXvLfE-ZFh3lsZ0BN8PawRw" alt="Берлинский концерт" class="concert-image">
-                    <div class="concert-info">
-                        <h3>Vendetta Tour <span class="europe-tag">Европа</span></h3>
-                        <div class="concert-date">
-                            <i class="fas fa-calendar-alt"></i>
-                            15 ноября 2023
-                        </div>
-                        <div class="concert-location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Берлин, Германия | Mercedes-Benz Arena
-                        </div>
-                        <button class="buy-button" data-concert="berlin">Купить билеты</button>
-                    </div>
-                </div>
+          <div class="concert-card">
+    <img src="photo_2025-03-28_14-01-14.jpg" alt="Московский концерт" class="concert-image">
+    <div class="concert-info">
+        <h3>Vendetta Tour <span class="europe-tag">Россия</span></h3>
+        <div class="concert-date">
+            <i class="fas fa-calendar-alt"></i>
+            15 ноября 2023
+        </div>
+        <div class="concert-location">
+            <i class="fas fa-map-marker-alt"></i>
+            Москва | ВТБ Арена
+        </div>
+        <button class="buy-button" data-concert="moscow">Купить билеты</button>
+    </div>
+</div>
+
+<div class="concert-card">
+    <img src="photo_2025-03-28_14-01-14 (2).jpg" alt="Санкт-Петербургский концерт" class="concert-image">
+    <div class="concert-info">
+        <h3>Vendetta Tour <span class="europe-tag">Россия</span></h3>
+        <div class="concert-date">
+            <i class="fas fa-calendar-alt"></i>
+            22 ноября 2023
+        </div>
+        <div class="concert-location">
+            <i class="fas fa-map-marker-alt"></i>
+            Санкт-Петербург | СКК "Петербургский"
+        </div>
+        <button class="buy-button" data-concert="spb">Купить билеты</button>
+    </div>
+
+</div>
                 
                 <div class="concert-card">
-                    <img src="https://i.ytimg.com/vi/M0RPrXBMfac/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGH8gEygmMA8=&rs=AOn4CLDwsIWmrITU1KY7RyhKH-o60YaE4w" alt="Парижский концерт" class="concert-image">
+                    <img src="https://static.tildacdn.com/tild6566-6436-4135-b239-396364336138/_DSC0320_.jpg" alt="Казанский концерт" class="concert-image">
                     <div class="concert-info">
-                        <h3>Vendetta Tour <span class="europe-tag">Европа</span></h3>
-                        <div class="concert-date">
-                            <i class="fas fa-calendar-alt"></i>
-                            22 ноября 2023
-                        </div>
-                        <div class="concert-location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Париж, Франция | Accor Arena
-                        </div>
-                        <button class="buy-button" data-concert="paris">Купить билеты</button>
-                    </div>
-                </div>
-                
-                <div class="concert-card">
-                    <img src="https://i.ytimg.com/vi/8VJ0qrTJi_k/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAaxfOqs9LEwiCkLiCwnsYQLKAcPg" alt="Амстердамский концерт" class="concert-image">
-                    <div class="concert-info">
-                        <h3>Vendetta Tour <span class="europe-tag">Европа</span></h3>
+                        <h3>Vendetta Tour <span class="europe-tag">Россия</span></h3>
                         <div class="concert-date">
                             <i class="fas fa-calendar-alt"></i>
                             5 декабря 2023
                         </div>
                         <div class="concert-location">
                             <i class="fas fa-map-marker-alt"></i>
-                            Амстердам, Нидерланды | Ziggo Dome
+                            Казань | Татнефть Арена
                         </div>
-                        <button class="buy-button" data-concert="amsterdam">Купить билеты</button>
+                        <button class="buy-button" data-concert="kazan">Купить билеты</button>
                     </div>
                 </div>
             </div>
@@ -581,8 +600,19 @@
                                 <option value="3">3 билета</option>
                                 <option value="4">4 билета</option>
                                 <option value="5">5 билетов</option>
+                                <option value="6+">6 и более</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sector">Сектор</label>
+                        <select id="sector" required>
+                            <option value="">Выберите сектор</option>
+                            <option value="VIP">VIP (10 000 руб.)</option>
+                            <option value="Fan">Fan-зона (7 000 руб.)</option>
+                            <option value="Parter">Партер (5 000 руб.)</option>
+                            <option value="Balcony">Балкон (3 000 руб.)</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="comment">Комментарий (необязательно)</label>
@@ -602,217 +632,436 @@
             
             <!-- Детализированная информация о туре -->
             <div class="tour-details">
-                <div class="tour-header">
-                    <h3 class="tour-title">Vendetta European Tour 2024</h3>
-                    <span class="europe-tag">Европа</span>
-                </div>
-                <div class="tour-dates">
-                    <i class="fas fa-calendar-alt"></i> Январь - Март 2024
-                </div>
-                <div class="tour-description">
-                    <p>Полномасштабный европейский тур в поддержку нового альбома "Vendetta". В программе: 
-                    премьеры новых треков, специальные гости и уникальное световое шоу. Тур охватит 
-                    12 городов Европы, включая как крупные столицы, так и менее посещаемые локации.</p>
+                <img src="https://i.ytimg.com/vi/1HUKupMXZdA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCCCvtBXvLfE-ZFh3lsZ0BN8PawRw" alt="Российский тур" class="tour-image">
+                <div class="tour-content">
+                    <div class="tour-header">
+                        <h3 class="tour-title">Vendetta Russian Tour 2024</h3>
+                        <span class="europe-tag">Россия</span>
+                    </div>
+                    <div class="tour-dates">
+                        <i class="fas fa-calendar-alt"></i> Январь - Март 2024
+                    </div>
+                    <div class="tour-description">
+                        <p>Большой тур по городам России в поддержку нового альбома "Vendetta". В программе: 
+                        премьеры новых треков, специальные гости и уникальное световое шоу. Тур охватит 
+                        15 городов России, включая как крупные мегаполисы, так и менее посещаемые локации.</p>
+                        
+                        <p>Каждый концерт будет уникальным - в зависимости от города мы подготовили 
+                        специальные сюрпризы для фанатов. В некоторых городах ожидаются совместные 
+                        выступления с местными исполнителями.</p>
+                    </div>
                     
-                    <p>Каждый концерт будет уникальным - в зависимости от города мы подготовили 
-                    специальные сюрпризы для фанатов. В некоторых городах ожидаются совместные 
-                    выступления с местными исполнителями.</p>
-                </div>
-                
-                <div class="tour-cities">
-                    <h4><i class="fas fa-map-marked-alt"></i> Города и даты:</h4>
-                    <div class="city-list">
-                        <div class="city-item">
-                            <div class="city-date">15.01.2024</div>
-                            <div>Лондон, UK</div>
-                            <div>O2 Arena</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">20.01.2024</div>
-                            <div>Барселона, ES</div>
-                            <div>Palau Sant Jordi</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">25.01.2024</div>
-                            <div>Милан, IT</div>
-                            <div>Mediolanum Forum</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">02.02.2024</div>
-                            <div>Прага, CZ</div>
-                            <div>O2 Arena</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">10.02.2024</div>
-                            <div>Вена, AT</div>
-                            <div>Wiener Stadthalle</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">18.02.2024</div>
-                            <div>Варшава, PL</div>
-                            <div>Torwar Hall</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">25.02.2024</div>
-                            <div>Будапешт, HU</div>
-                            <div>Budapest Arena</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">05.03.2024</div>
-                            <div>Стокгольм, SE</div>
-                            <div>Avicii Arena</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">12.03.2024</div>
-                            <div>Копенгаген, DK</div>
-                            <div>Royal Arena</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">20.03.2024</div>
-                            <div>Хельсинки, FI</div>
-                            <div>Hartwall Arena</div>
+                    <div class="tour-cities">
+                        <h4><i class="fas fa-map-marked-alt"></i> Города и даты:</h4>
+                        <div class="city-list">
+                            <div class="city-item">
+                                <div class="city-date">15.01.2024</div>
+                                <div>Москва</div>
+                                <div>ВТБ Арена</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">20.01.2024</div>
+                                <div>Санкт-Петербург</div>
+                                <div>СКК "Петербургский"</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">25.01.2024</div>
+                                <div>Казань</div>
+                                <div>Татнефть Арена</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">02.02.2024</div>
+                                <div>Екатеринбург</div>
+                                <div>ДИВС</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">10.02.2024</div>
+                                <div>Новосибирск</div>
+                                <div>Новосибирск Экспоцентр</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">18.02.2024</div>
+                                <div>Краснодар</div>
+                                <div>Баскет-Холл</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">25.02.2024</div>
+                                <div>Сочи</div>
+                                <div>Зимний театр</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">05.03.2024</div>
+                                <div>Ростов-на-Дону</div>
+                                <div>Ростов Арена</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">12.03.2024</div>
+                                <div>Самара</div>
+                                <div>МТЛ Арена</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">20.03.2024</div>
+                                <div>Нижний Новгород</div>
+                                <div>КРК "Нагорный"</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div style="margin-top: 30px;">
-                    <button class="buy-button" style="margin-right: 15px;">
-                        <i class="fas fa-ticket-alt"></i> Купить билеты на тур
-                    </button>
-                    <button class="buy-button" style="background-color: transparent; border: 1px solid var(--primary);">
-                        <i class="fas fa-info-circle"></i> Подробнее о туре
-                    </button>
+                    
+                    <div style="margin-top: 30px;">
+                        <button class="buy-button" style="margin-right: 15px;" data-tour="russian-tour">
+                            <i class="fas fa-ticket-alt"></i> Купить билеты на тур
+                        </button>
+                        <button class="buy-button" style="background-color: transparent; border: 1px solid var(--primary);" id="tourDetailsBtn">
+                            <i class="fas fa-info-circle"></i> Подробнее о туре
+                        </button>
+                    </div>
                 </div>
             </div>
             
             <!-- Дополнительный тур -->
             <div class="tour-details">
-                <div class="tour-header">
-                    <h3 class="tour-title">Summer Festivals 2024</h3>
-                    <span class="europe-tag" style="background-color: #ff6b00;">Лето</span>
-                </div>
-                <div class="tour-dates">
-                    <i class="fas fa-calendar-alt"></i> Июнь - Август 2024
-                </div>
-                <div class="tour-description">
-                    <p>Участие в крупнейших музыкальных фестивалях Европы. В этом году MUPP выступит 
-                    на 5 престижных фестивалях, где представит специальную летнюю версию шоу.</p>
+                <img src="https://i.ytimg.com/vi/v4erK0b-i5o/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGH8gEygrMA8=&rs=AOn4CLAEfiSpdaBvfDzPIeEQolEpmUNzeQ" alt="Летние фестивали" class="tour-image">
+                <div class="tour-content">
+                    <div class="tour-header">
+                        <h3 class="tour-title">Summer Festivals 2024</h3>
+                        <span class="europe-tag" style="background-color: #ff6b00;">Лето</span>
+                    </div>
+                    <div class="tour-dates">
+                        <i class="fas fa-calendar-alt"></i> Июнь - Август 2024
+                    </div>
+                    <div class="tour-description">
+                        <p>Участие в крупнейших музыкальных фестивалях России. В этом году MUPP выступит 
+                        на 5 престижных фестивалях, где представит специальную летнюю версию шоу.</p>
+                        
+                        <p>Фестивальные выступления будут отличаться от концертов тура - более динамичные 
+                        сеты, кавер-версии и неожиданные коллаборации с другими участниками фестивалей.</p>
+                    </div>
                     
-                    <p>Фестивальные выступления будут отличаться от концертов тура - более динамичные 
-                    сеты, кавер-версии и неожиданные коллаборации с другими участниками фестивалей.</p>
-                </div>
-                
-                <div class="tour-cities">
-                    <h4><i class="fas fa-map-marked-alt"></i> Фестивали и даты:</h4>
-                    <div class="city-list">
-                        <div class="city-item">
-                            <div class="city-date">21.06.2024</div>
-                            <div>Гластонбери, UK</div>
-                            <div>Glastonbury Festival</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">05.07.2024</div>
-                            <div>Роскилле, DK</div>
-                            <div>Roskilde Festival</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">20.07.2024</div>
-                            <div>Берлин, DE</div>
-                            <div>Lollapalooza Berlin</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">03.08.2024</div>
-                            <div>Будапешт, HU</div>
-                            <div>Sziget Festival</div>
-                        </div>
-                        <div class="city-item">
-                            <div class="city-date">15.08.2024</div>
-                            <div>Брешиа, IT</div>
-                            <div>Tomorrowland Italy</div>
+                    <div class="tour-cities">
+                        <h4><i class="fas fa-map-marked-alt"></i> Фестивали и даты:</h4>
+                        <div class="city-list">
+                            <div class="city-item">
+                                <div class="city-date">21.06.2024</div>
+                                <div>Москва</div>
+                                <div>Park Live Festival</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">05.07.2024</div>
+                                <div>Санкт-Петербург</div>
+                                <div>Алые Паруса</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">20.07.2024</div>
+                                <div>Казань</div>
+                                <div>Сотворение мира</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">03.08.2024</div>
+                                <div>Сочи</div>
+                                <div>Новая Волна</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">15.08.2024</div>
+                                <div>Калининград</div>
+                                <div>Калининград Сити Джаз</div>
+                            </div>
                         </div>
                     </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <button class="buy-button" style="background-color: #ff6b00;" data-tour="summer-festivals">
+                            <i class="fas fa-campground"></i> Купить фестивальные билеты
+                        </button>
+                    </div>
                 </div>
-                
-                <div style="margin-top: 30px;">
-                    <button class="buy-button" style="background-color: #ff6b00;">
-                        <i class="fas fa-campground"></i> Купить фестивальные билеты
-                    </button>
+            </div>
+            
+            <!-- Тур по Европе -->
+            <div class="tour-details">
+                <img src="https://static.tildacdn.com/tild6566-6436-4135-b239-396364336138/_DSC0320_.jpg" alt="Европейский тур" class="tour-image">
+                <div class="tour-content">
+                    <div class="tour-header">
+                        <h3 class="tour-title">European Tour 2024</h3>
+                        <span class="europe-tag" style="background-color: #0099ff;">Европа</span>
+                    </div>
+                    <div class="tour-dates">
+                        <i class="fas fa-calendar-alt"></i> Апрель - Май 2024
+                    </div>
+                    <div class="tour-description">
+                        <p>Первый сольный тур MUPP по Европе! 10 городов, 8 стран и незабываемые впечатления 
+                        для всех фанатов. В программе: лучшие хиты, эксклюзивные версии песен и специальные 
+                        гости в каждом городе.</p>
+                        
+                        <p>Это будет уникальная возможность увидеть MUPP в более камерной обстановке 
+                        европейских клубов и концертных залов. Для участников тура будет доступен 
+                        эксклюзивный мерч, который нельзя будет купить больше нигде.</p>
+                    </div>
+                    
+                    <div class="tour-cities">
+                        <h4><i class="fas fa-map-marked-alt"></i> Города и даты:</h4>
+                        <div class="city-list">
+                            <div class="city-item">
+                                <div class="city-date">10.04.2024</div>
+                                <div>Берлин, Германия</div>
+                                <div>Columbia Theater</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">15.04.2024</div>
+                                <div>Париж, Франция</div>
+                                <div>La Cigale</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">20.04.2024</div>
+                                <div>Лондон, Великобритания</div>
+                                <div>O2 Academy Islington</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">25.04.2024</div>
+                                <div>Амстердам, Нидерланды</div>
+                                <div>Melkweg</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">30.04.2024</div>
+                                <div>Барселона, Испания</div>
+                                <div>Razzmatazz</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">05.05.2024</div>
+                                <div>Милан, Италия</div>
+                                <div>Alcatraz</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">10.05.2024</div>
+                                <div>Прага, Чехия</div>
+                                <div>Lucerna Music Bar</div>
+                            </div>
+                            <div class="city-item">
+                                <div class="city-date">15.05.2024</div>
+                                <div>Варшава, Польша</div>
+                                <div>Progresja</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <button class="buy-button" style="background-color: #0099ff;" data-tour="european-tour">
+                            <i class="fas fa-globe-europe"></i> Купить билеты в Европе
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <!-- Модальное окно с деталями тура -->
+    <div id="tourModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;">
+        <div style="background-color: #222; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative;">
+            <button id="closeModal" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            <h2 style="color: var(--primary); margin-top: 0;">Детали тура Vendetta Russian Tour 2024</h2>
+            <div style="margin: 20px 0;">
+                <h3 style="color: var(--primary);">Что включено:</h3>
+                <ul style="line-height: 1.6;">
+                    <li>Уникальное шоу с премьерой новых треков из альбома "Vendetta"</li>
+                    <li>Специальные гости в каждом городе</li>
+                    <li>Эксклюзивный мерч только для участников тура</li>
+                    <li>Meet & Greet для обладателей VIP-билетов</li>
+                    <li>Фотосессия с MUPP (по предварительной записи)</li>
+                </ul>
+            </div>
+            <div style="margin: 20px 0;">
+                <h3 style="color: var(--primary);">Типы билетов:</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background-color: rgba(255,255,255,0.05); padding: 15px; border-radius: 5px; border-left: 3px solid var(--primary);">
+                        <h4 style="margin-top: 0; color: var(--primary);">VIP</h4>
+                        <p>10 000 руб.</p>
+                        <ul style="font-size: 0.9rem;">
+                            <li>Лучшие места</li>
+                            <li>Meet & Greet</li>
+                                                        <li>Эксклюзивный мерч</li>
+                            <li>Фото с MUPP</li>
+                            <li>Напиток за барной стойкой</li>
+                        </ul>
+                    </div>
+                    <div style="background-color: rgba(255,255,255,0.05); padding: 15px; border-radius: 5px; border-left: 3px solid #ff6b00;">
+                        <h4 style="margin-top: 0; color: #ff6b00;">Fan-зона</h4>
+                        <p>7 000 руб.</p>
+                        <ul style="font-size: 0.9rem;">
+                            <li>Места рядом со сценой</li>
+                            <li>Ранний вход</li>
+                            <li>Эксклюзивный мерч</li>
+                        </ul>
+                    </div>
+                    <div style="background-color: rgba(255,255,255,0.05); padding: 15px; border-radius: 5px; border-left: 3px solid #0099ff;">
+                        <h4 style="margin-top: 0; color: #0099ff;">Партер</h4>
+                        <p>5 000 руб.</p>
+                        <ul style="font-size: 0.9rem;">
+                            <li>Стоячие места</li>
+                            <li>Хороший обзор сцены</li>
+                            <li>Доступ к мерчу</li>
+                        </ul>
+                    </div>
+                    <div style="background-color: rgba(255,255,255,0.05); padding: 15px; border-radius: 5px; border-left: 3px solid #00cc66;">
+                        <h4 style="margin-top: 0; color: #00cc66;">Балкон</h4>
+                        <p>3 000 руб.</p>
+                        <ul style="font-size: 0.9rem;">
+                            <li>Сидячие места</li>
+                            <li>Общий обзор зала</li>
+                            <li>Доступ к мерчу</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div style="margin: 20px 0;">
+                <h3 style="color: var(--primary);">Дополнительная информация:</h3>
+                <p>Начало всех концертов в 19:30. Двери открываются в 18:00 для VIP-билетов и в 18:30 для остальных.</p>
+                <p>Возрастное ограничение: 16+. Дети до 16 лет допускаются только в сопровождении взрослых.</p>
+            </div>
+            <button class="buy-button" style="width: 100%;" data-tour="russian-tour-modal">
+                <i class="fas fa-ticket-alt"></i> Купить билеты на тур
+            </button>
+        </div>
+    </div>
+
     <script>
-        // Выделение активной страницы в навигации
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            if (link.href === window.location.href) {
-                link.style.color = 'var(--primary)';
+        // Навигация
+        const mainNav = document.getElementById('mainNav');
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) {
+                mainNav.classList.add('scrolled');
+            } else {
+                mainNav.classList.remove('scrolled');
             }
         });
         
-        // Обработка покупки билетов
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('mobile-active');
+        });
+        
+        // Форма покупки билетов
         const buyButtons = document.querySelectorAll('.buy-button');
         const ticketForm = document.getElementById('ticketForm');
         const concertLocation = document.getElementById('concertLocation');
         
         buyButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const concert = this.getAttribute('data-concert');
-                if (concert) {
-                    concertLocation.value = concert;
+            if (!button.dataset.tour) {
+                button.addEventListener('click', function() {
+                    const concert = this.dataset.concert;
+                    let location = '';
+                    
+                    switch(concert) {
+                        case 'moscow':
+                            location = 'Москва, ВТБ Арена (15 ноября 2023)';
+                            break;
+                        case 'spb':
+                            location = 'Санкт-Петербург, СКК "Петербургский" (22 ноября 2023)';
+                            break;
+                        case 'kazan':
+                            location = 'Казань, Татнефть Арена (5 декабря 2023)';
+                            break;
+                    }
+                    
+                    concertLocation.value = location;
                     ticketForm.classList.add('active');
+                    
+                    // Прокрутка к форме
                     ticketForm.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-        
-        // Обработка формы
-        document.getElementById('concertForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Ваша заявка принята! Мы свяжемся с вами для подтверждения бронирования.');
-            this.reset();
-            ticketForm.classList.remove('active');
-        });
-        
-        // Инициализация карты
-        const map = L.map('concertMap').setView([51.505, 10], 4);
-        
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        
-        // Метки для концертов
-        const berlinMarker = L.marker([52.5104, 13.4025]).addTo(map)
-            .bindPopup("<b>Mercedes-Benz Arena</b><br>Берлин, Германия<br>15 ноября 2023");
-            
-        const parisMarker = L.marker([48.8385, 2.3788]).addTo(map)
-            .bindPopup("<b>Accor Arena</b><br>Париж, Франция<br>22 ноября 2023");
-            
-        const amsterdamMarker = L.marker([52.3134, 4.9362]).addTo(map)
-            .bindPopup("<b>Ziggo Dome</b><br>Амстердам, Нидерланды<br>5 декабря 2023");
-        
-        // Группа маркеров для автоматического подбора масштаба
-        const markers = L.layerGroup([berlinMarker, parisMarker, amsterdamMarker]);
-        map.fitBounds(markers.getBounds().pad(0.5));
-        
-        // Прокрутка навигации
-        window.addEventListener('scroll', function() {
-            const nav = document.getElementById('mainNav');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
+                });
             }
         });
         
-        // Мобильное меню
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
+        // Модальное окно тура
+        const tourDetailsBtn = document.getElementById('tourDetailsBtn');
+        const tourModal = document.getElementById('tourModal');
+        const closeModal = document.getElementById('closeModal');
         
-        menuToggle.addEventListener('click', function() {
-            navLinks.classList.toggle('mobile-active');
+        if (tourDetailsBtn) {
+            tourDetailsBtn.addEventListener('click', function() {
+                tourModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        
+        closeModal.addEventListener('click', function() {
+            tourModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         });
+        
+        // Закрытие модального окна при клике вне его
+        window.addEventListener('click', function(event) {
+            if (event.target === tourModal) {
+                tourModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Инициализация карты
+        ymaps.ready(initMap);
+        
+        function initMap() {
+            const map = new ymaps.Map('concertMap', {
+                center: [55.76, 37.64], // Москва
+                zoom: 4,
+                controls: ['zoomControl']
+            });
+            
+            // Добавляем метки концертов
+            const moscowPlacemark = new ymaps.Placemark([55.715687, 37.553492], {
+                hintContent: 'Москва, ВТБ Арена',
+                balloonContent: '15 ноября 2023<br>Начало в 19:30'
+            }, {
+                iconLayout: 'default#image',
+                iconImageHref: 'https://cdn-icons-png.flaticon.com/512/2776/2776067.png',
+                iconImageSize: [40, 40],
+                iconImageOffset: [-20, -40]
+            });
+            
+            const spbPlacemark = new ymaps.Placemark([59.972055, 30.324338], {
+                hintContent: 'Санкт-Петербург, СКК "Петербургский"',
+                balloonContent: '22 ноября 2023<br>Начало в 19:30'
+            }, {
+                iconLayout: 'default#image',
+                iconImageHref: 'https://cdn-icons-png.flaticon.com/512/2776/2776067.png',
+                iconImageSize: [40, 40],
+                iconImageOffset: [-20, -40]
+            });
+            
+            const kazanPlacemark = new ymaps.Placemark([55.821499, 49.160980], {
+                hintContent: 'Казань, Татнефть Арена',
+                balloonContent: '5 декабря 2023<br>Начало в 19:30'
+            }, {
+                iconLayout: 'default#image',
+                iconImageHref: 'https://cdn-icons-png.flaticon.com/512/2776/2776067.png',
+                iconImageSize: [40, 40],
+                iconImageOffset: [-20, -40]
+            });
+            
+            map.geoObjects.add(moscowPlacemark);
+            map.geoObjects.add(spbPlacemark);
+            map.geoObjects.add(kazanPlacemark);
+            
+            // Автоматически открываем балун у первой метки
+            moscowPlacemark.balloon.open();
+        }
+        
+        // Обработка формы
+        const concertForm = document.getElementById('concertForm');
+        
+        if (concertForm) {
+            concertForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Здесь должна быть логика отправки формы
+                alert('Ваша заявка на билеты принята! Мы свяжемся с вами в ближайшее время для подтверждения.');
+                
+                // Сброс формы
+                this.reset();
+                ticketForm.classList.remove('active');
+            });
+        }
     </script>
 </body>
 </html>
+
